@@ -1,23 +1,91 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #000 !important;
+  padding: 0px 10px;
+}
+
+h1 {
+  color: #333;
+}
+#hiddenButton {
+  display: none;
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+.sidebar-wrapper {
+  height: 100%;
+  margin-left: 5px;
+}
+.meeting-sidebar {
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 8px 24px;
+  padding: 10px;
+  background: #242424;
+  height: 100%;
+  width: 100%;
+}
+.meeting-container {
+  display: grid;
+  grid-template-columns: 80% 20%;
+  justify-content: center;
+  align-items: start;
+}
+.zmwebsdk-makeStyles-singleView-7 .zoommtg-drag-video {
+  display: none;
+}
+
+#zoomMeetingContainer {
+  display: block !important;
+  margin-bottom: 5px;
+}
+
+#zoomMeetingContainer>div {
+  width: 100%;
+}
+
+.zmwebsdk-MuiPaper-root>div {
+  width: 100% !important;
+}
+
+#suspension-view-tabpanel-active-active>div div:nth-child(2) {
+  width: 100%;
+}
+
+#suspension-view-tabpanel-active-active>div {
+  height: 100%;
+  aspect-ratio: 2;
+}
+
+[role="dialog"] {
+  position: relative !important;
+  transform: unset !important;
+  margin-top: 5px;
+}
+
+div[aria-label="header"] {
+  display: none;
+}
+
+@media screen and (max-width: 1240px) {
+  .meeting-container {
+    grid-template-columns: 1fr;
   }
-  
-  h1 {
-    color: #333;
-  }
-  
-  button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-  }
-  
+}
