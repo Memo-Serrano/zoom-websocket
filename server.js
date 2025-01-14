@@ -2,6 +2,7 @@ const express = require('express');
 const http = require('http');
 const WebSocket = require('ws');
 const crypto = require('crypto');
+const KJUR = require('jsrsasign')
 
 const app = express();
 const server = http.createServer(app);
@@ -28,12 +29,30 @@ app.get('/signature', (req, res) => {
     return res.status(400).send('Meeting number is required');
   }
 
-  const timestamp = new Date().getTime() - 30000;
+/*   const timestamp = new Date().getTime() - 30000;
   const msg = Buffer.from(`${SDK_KEY}${meetingNumber}${timestamp}${role}`).toString('base64');
   const hash = crypto.createHmac('sha256', SDK_SECRET).update(msg).digest('base64');
-  const signature = Buffer.from(`${SDK_KEY}.${meetingNumber}.${timestamp}.${role}.${hash}`).toString('base64');
+  const signature = Buffer.from(`${SDK_KEY}.${meetingNumber}.${timestamp}.${role}.${hash}`).toString('base64'); */
 
-  res.json({ signature });
+  const iat = Math.round(new Date().getTime() / 1000) - 30
+  const exp = iat + 60 * 60 * 2
+  const oHeader = { alg: 'HS256', typ: 'JWT' }
+
+  const oPayload = {
+    sdkKey: SDK_KEY,
+    appKey: SDK_KEY,
+    mn: meetingNumber,
+    role: role,
+    iat: iat,
+    exp: exp,
+    tokenExp: exp
+  }
+
+  const sHeader = JSON.stringify(oHeader)
+  const sPayload = JSON.stringify(oPayload)
+  const sdkJWT = KJUR.jws.JWS.sign('HS256', sHeader, sPayload, SDK_SECRET)
+
+  res.json({ sdkJWT });
 });
 
 // WebSocket server

@@ -8,6 +8,8 @@
         "@zoomus/websdk": "^2.15.0",
         "dotenv": "^16.0.3",
         "express": "^4.17.1",
+        "jsrsasign": "^11.1.0",
+        "jsrsasign-util": "^1.0.5",
         "react": "^19.0.0",
         "react-dom": "^19.0.0",
         "ws": "^8.8.1"

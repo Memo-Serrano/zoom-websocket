@@ -1,4 +1,4 @@
-import { ZoomMtgEmbedded } from '@zoomus/websdk';
+const { ZoomMtgEmbedded } = window;
 
 export async function initializeZoomMeeting() {
   const client = ZoomMtgEmbedded.createClient();
