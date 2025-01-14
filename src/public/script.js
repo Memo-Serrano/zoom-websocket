@@ -4,7 +4,7 @@ const socket = new WebSocket(`${protocol}://${window.location.host}`);
 const dynamicButton = document.getElementById('dynamicButton');
 
 // Mostrar el botón cuando se reciba el mensaje
-ws.onmessage = (event) => {
+socket.onmessage = (event) => {
   if (event.data === 'showButton') {
     dynamicButton.style.display = 'block';
   }
