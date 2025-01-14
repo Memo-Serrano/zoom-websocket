@@ -6,7 +6,13 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Servir los archivos estáticos desde la carpeta 'public'
-app.use(express.static('src/public'));
+app.use(express.static('src/public', {
+  setHeaders: (res, path) => {
+    if (path.endsWith('.js')) {
+      res.setHeader('Content-Type', 'application/javascript');
+    }
+  }
+}));
 
 // Crear el servidor HTTP
 const server = app.listen(PORT, () => {
@@ -21,7 +27,6 @@ wss.on('connection', (ws) => {
 
   ws.on('message', (message) => {
     if (message === 'showButton') {
-      // Enviar mensaje a todos los clientes conectados
       wss.clients.forEach((client) => {
         if (client.readyState === WebSocket.OPEN) {
           client.send('showButton');
