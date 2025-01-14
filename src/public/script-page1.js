@@ -1,4 +1,4 @@
-import { initializeZoomMeeting } from '../zoom.js';
+import { initializeZoomMeeting } from './zoom.js';
 
 // Detectar si está en local o en producción
 const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
