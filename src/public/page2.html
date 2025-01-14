@@ -10,7 +10,7 @@
   <button id="showButton">Mostrar Botón en la Página Principal</button>
 
   <script>
-    const ws = new WebSocket('wss://' + window.location.host);
+    const ws = new WebSocket('https://' + window.location.host);
     const button = document.getElementById('showButton');
 
     button.addEventListener('click', () => {

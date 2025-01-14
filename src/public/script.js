@@ -1,10 +1,8 @@
-const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
-const socket = new WebSocket(`${protocol}://${window.location.host}`);
-
+const ws = new WebSocket('https://' + window.location.host);
 const dynamicButton = document.getElementById('dynamicButton');
 
 // Mostrar el botón cuando se reciba el mensaje
-socket.onmessage = (event) => {
+ws.onmessage = (event) => {
   if (event.data === 'showButton') {
     dynamicButton.style.display = 'block';
   }
