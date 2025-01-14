@@ -23,7 +23,7 @@ client.init({
 
 client.join({
   sdkKey: 'UEEbOouT0wWC14opf66w',
-  signature: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHBLZXkiOiJVRUViT291VDB3V0MxNG9wZjY2dyIsImlhdCI6MTczNjgzODIwMjk3OSwiZXhwIjoxNzM2ODQzMjAyOTc5LCJ0cGMiOiI4NzQyMzk2NzgzMiIsInJvbGUiOjB9.2tiZgPAWRrzQrYXDH5aTQnhpnMsUWZVNK0mgq2IT_MU',
+  signature: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHBLZXkiOiJVRUViT291VDB3V0MxNG9wZjY2dyIsInNka0tleSI6IlVFRWJPb3VUMHdXQzE0b3BmNjZ3IiwibW4iOiI4NzQyMzk2NzgzMiIsInJvbGUiOjAsInRva2VuRXhwIjoxNzM2ODQyMTI4LCJpYXQiOjE3MzY4Mzg1MjgsImV4cCI6MTczNjg0MjEyOH0.KMuh4K9yuz8slwUiDKjmCVO9Il-kDdhtV3e8KN-DvYk',
   meetingNumber: '87423967832',
   password: '718510',
   userName: 'Invitado',
