@@ -7,7 +7,8 @@ const socketUrl = isProduction ? 'wss://test-boton-ptop.onrender.com' : 'ws://lo
 const socket = new WebSocket(socketUrl);
 
 socket.onmessage = (event) => {
-  if (event.data === 'showButton') {
+  const message = JSON.parse(event.data);
+  if (message === 'showButton') {
     document.getElementById('hiddenButton').style.display = 'block';
   }
 };

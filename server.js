@@ -63,12 +63,13 @@ wss.on('connection', (ws) => {
   console.log('Un cliente se ha conectado');
 
   ws.on('message', (message) => {
-    console.log('Mensaje recibido del cliente:', message);
+    const msg = JSON.parse(message);
+    console.log('Mensaje recibido del cliente:', msg);
 
-    if (message === 'showButton') {
+    if (msg) {
       wss.clients.forEach((client) => {
         if (client.readyState === WebSocket.OPEN) {
-          client.send('showButton');
+          client.send(JSON.stringify(msg));
         }
       });
     }

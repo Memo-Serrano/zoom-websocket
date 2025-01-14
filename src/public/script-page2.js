@@ -6,5 +6,5 @@ const socket = new WebSocket(socketUrl);
 
 // Enviar mensaje para mostrar el botón en index.html
 document.getElementById('showButton').addEventListener('click', () => {
-  socket.send('showButton');
+  socket.send(JSON.stringify('showButton'));
 });
