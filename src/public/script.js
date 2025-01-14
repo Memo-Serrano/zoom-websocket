@@ -1,7 +1,3 @@
-// Asegúrate de que el script sea un módulo
-import { ZoomMtgEmbedded } from '@zoomus/websdk';
-
-// WebSocket connection
 const ws = new WebSocket('wss://' + window.location.host);
 const dynamicButton = document.getElementById('dynamicButton');
 
@@ -12,8 +8,11 @@ ws.onmessage = (event) => {
   }
 };
 
-// Configuración de Zoom Meeting
+// Usa ZoomMtgEmbedded desde el global window object
+const { ZoomMtgEmbedded } = window;
+
 const client = ZoomMtgEmbedded.createClient();
+
 const meetingSDKElement = document.getElementById('zoomMeetingContainer');
 
 client.init({
