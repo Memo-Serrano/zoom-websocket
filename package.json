@@ -2,7 +2,7 @@
     "name": "zoom-websocket-app",
     "version": "1.0.0",
     "scripts": {
-        "start": "node src/server.js"
+        "start": "node server.js"
     },
     "dependencies": {
         "@zoomus/websdk": "^2.15.0",
