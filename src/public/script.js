@@ -21,9 +21,9 @@ client.init({
 });
 
 client.join({
-  sdkKey: 'YOUR_SDK_KEY',
-  signature: 'YOUR_SIGNATURE',
-  meetingNumber: 'YOUR_MEETING_NUMBER',
-  password: 'YOUR_MEETING_PASSWORD',
-  userName: 'YOUR_NAME',
+  sdkKey: 'UEEbOouT0wWC14opf66w',
+  signature: 'VUVFYk9vdVQwd1dDMTRvcGY2NncuODc0MjM5Njc4MzIuMTczNjgxNzI5MTg5Ny4xLitnUUxpUklHRGI3RmJHek5CYTlYSTR0YWZaQjhPQ2d3Rkd2ZWdSaEFORlE9',
+  meetingNumber: '87423967832',
+  password: '718510',
+  userName: 'Invitado',
 });
