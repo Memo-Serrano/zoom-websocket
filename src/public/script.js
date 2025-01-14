@@ -1,12 +1,26 @@
-const ws = new WebSocket('https://' + window.location.host);
-const dynamicButton = document.getElementById('dynamicButton');
+// Detectar si está en local o en producción
+const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+const socketUrl = isProduction ? 'wss://test-boton-ptop.onrender.com' : 'ws://localhost:3000';
 
-// Mostrar el botón cuando se reciba el mensaje
-ws.onmessage = (event) => {
+const socket = new WebSocket(socketUrl);
+
+// Manejar mensajes recibidos del servidor WebSocket
+socket.onmessage = (event) => {
   if (event.data === 'showButton') {
-    dynamicButton.style.display = 'block';
+    const hiddenButton = document.getElementById('hiddenButton');
+    if (hiddenButton) {
+      hiddenButton.style.display = 'block';
+    }
   }
 };
+
+// Manejar clic en el botón de page2.html
+const showButton = document.getElementById('showButton');
+if (showButton) {
+  showButton.addEventListener('click', () => {
+    socket.send('showButton');
+  });
+}
 
 // Usa ZoomMtgEmbedded desde el global window object
 const { ZoomMtgEmbedded } = window;

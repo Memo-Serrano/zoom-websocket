@@ -3,19 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Control Panel</title>
+  <title>Controlar Botón</title>
+  <script src="script.js" defer></script>
 </head>
 <body>
-  <h1>Control Panel</h1>
-  <button id="showButton">Mostrar Botón en la Página Principal</button>
-
-  <script>
-    const ws = new WebSocket('https://' + window.location.host);
-    const button = document.getElementById('showButton');
-
-    button.addEventListener('click', () => {
-      ws.send('showButton');
-    });
-  </script>
+  <h1>Controlar Botón en Index</h1>
+  <button id="showButton">Mostrar Botón</button>
 </body>
 </html>

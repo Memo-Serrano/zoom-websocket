@@ -14,15 +14,24 @@
 
   <!-- Cargar el SDK de Zoom -->
   <script src="./libs/zoom-meeting-embedded-ES5.min.js"></script>
+  
+  <script src="script.js" defer></script>
+  <style>
+    #hiddenButton {
+      display: none;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-  <h1>Zoom WebSocket App</h1>
-  <div id="zmmtg-root"></div>
+  <h1>Zoom Meeting Embebido</h1>
   <div id="zoomMeetingContainer"></div>
-
-  <button id="dynamicButton" style="display: none;">Botón dinámico</button>
-
-  <!-- Cargar tu script -->
-  <script src="./script.js"></script>
+  <button id="hiddenButton">Nuevo Botón</button>
 </body>
 </html>
