@@ -7,11 +7,17 @@ const app = express();
 const server = http.createServer(app);
 
 // Servir archivos estáticos desde 'src/public'
-app.use(express.static('src/public'));
+app.use(express.static('src/public', {
+  setHeaders: (res, path) => {
+    if (path.endsWith('.js')) {
+      res.setHeader('Content-Type', 'application/javascript');
+    }
+  }
+}));
 
 // Zoom SDK credentials
-const SDK_KEY = 'YOUR_SDK_KEY';
-const SDK_SECRET = 'YOUR_SDK_SECRET';
+const SDK_KEY = 'UEEbOouT0wWC14opf66w';
+const SDK_SECRET = 'WV10DUSHL059A9FWoYIbgu35MFmXF5Zv';
 
 // Endpoint para generar la signature de Zoom
 app.get('/signature', (req, res) => {
