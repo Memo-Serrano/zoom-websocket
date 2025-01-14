@@ -7,7 +7,7 @@ const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
 // Servir archivos estáticos desde la carpeta 'public'
-app.use(express.static('public'));
+app.use(express.static('src/public'));
 
 // Manejar conexiones WebSocket
 wss.on('connection', (ws) => {
