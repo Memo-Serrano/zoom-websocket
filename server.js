@@ -52,7 +52,8 @@ app.get('/signature', (req, res) => {
   const sPayload = JSON.stringify(oPayload)
   const sdkJWT = KJUR.jws.JWS.sign('HS256', sHeader, sPayload, SDK_SECRET)
 
-  res.json({ sdkJWT });
+console.log(sdkJWT)
+  res.json({ signature: sdkJWT.toString() });
 });
 
 // WebSocket server
