@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Control Panel</title>
+</head>
+<body>
+  <h1>Control Panel</h1>
+  <button id="showButton">Mostrar Botón en la Página Principal</button>
+
+  <script>
+    const ws = new WebSocket('wss://' + window.location.host);
+    const button = document.getElementById('showButton');
+
+    button.addEventListener('click', () => {
+      ws.send('showButton');
+    });
+  </script>
+</body>
+</html>
