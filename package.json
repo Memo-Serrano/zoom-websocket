@@ -2,13 +2,14 @@
     "name": "zoom-websocket-app",
     "version": "1.0.0",
     "scripts": {
-      "start": "node src/server.js"
+        "start": "node src/server.js"
     },
     "dependencies": {
-      "@zoomus/websdk": "^2.15.0",
-      "express": "^4.17.1",
-      "ws": "^8.8.1",
-      "dotenv": "^16.0.3"
+        "@zoomus/websdk": "^2.15.0",
+        "dotenv": "^16.0.3",
+        "express": "^4.17.1",
+        "react": "^19.0.0",
+        "react-dom": "^19.0.0",
+        "ws": "^8.8.1"
     }
-  }
-  
+}

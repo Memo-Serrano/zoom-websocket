@@ -7,6 +7,13 @@
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="./libs/css/bootstrap.css">
   <link rel="stylesheet" href="./libs/css/react-select.css">
+  
+  <!-- Cargar React y ReactDOM -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+
+  <!-- Cargar el SDK de Zoom -->
+  <script src="./libs/zoom-meeting-embedded-ES5.min.js"></script>
 </head>
 <body>
   <h1>Zoom WebSocket App</h1>
@@ -15,7 +22,7 @@
 
   <button id="dynamicButton" style="display: none;">Botón dinámico</button>
 
-  <script src="./libs/zoom-meeting-embedded-ES5.min.js"></script>
+  <!-- Cargar tu script -->
   <script src="./script.js"></script>
 </body>
 </html>
