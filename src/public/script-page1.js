@@ -26,17 +26,17 @@ const config = { attributes: true, childList: true, subtree: true };
 const callback = (mutationList, observer) => {
   for (const mutation of mutationList) {
     if (!document.querySelector('[role="dialog"][aria-label="Chat"]')) {
+      console.log('chat not av')
       if (document.querySelector("button[aria-label='More']")) {
       document.querySelector("button[aria-label='More']").click()
       document.querySelector("#menu-list-icon-more > li").click()
       }
     }
-    if (document.querySelector('[role="dialog"][aria-label="Chat"]')) {
-    }
-    if(!document.querySelector('.zoom-wrapper [role="dialog"][aria-label="Chat"]') && document.querySelector('[role="dialog"][aria-label="Chat"]')) {
-      //document.querySelector('.zoom-wrapper').append(document.querySelector('[role="dialog"][aria-label="Chat"]'))
+    if(!document.querySelector('.zoom-wrapper [role="dialog"][aria-label="Chat"]') && document.querySelector('[role="dialog"][aria-label="Chat"]') && document.querySelector('#ZOOM_WEB_SDK_SELF_VIDEO ~ ul')) {
+      console.log('chat ava')
+      document.querySelector('.zoom-wrapper').append(document.querySelector('[role="dialog"][aria-label="Chat"]'))
       if(window.innerWidth < 1240) {
-        //document.querySelector('.zoom-wrapper').insertBefore(document.querySelector('.meeting-sidebar'), document.querySelector('[role="dialog"][aria-label="Chat"]'))
+        document.querySelector('.zoom-wrapper').insertBefore(document.querySelector('.meeting-sidebar'), document.querySelector('[role="dialog"][aria-label="Chat"]'))
       }
     }
   }
@@ -46,10 +46,10 @@ const callback = (mutationList, observer) => {
 const observer = new MutationObserver(callback);
 
 // Start observing the target node for configured mutations
-/* observer.observe(targetNode, config);
+observer.observe(targetNode, config);
 function disconnectChatObserer() {
   observer.disconnect();
-} */
+}
 
 window.onresize = (event) => {
   if(window.innerWidth < 1240) {
