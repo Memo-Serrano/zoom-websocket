@@ -1,3 +1,6 @@
+html {
+  overflow: hidden;
+}
 body {
   font-family: Arial, sans-serif;
   background-color: #000 !important;
@@ -43,6 +46,9 @@ button:hover {
   height: 100%;
   width: 100%;
 }
+.init-hidden {
+  display: none !important;
+}
 .meeting-container {
   display: grid;
   grid-template-columns: 80% 20%;
@@ -55,14 +61,15 @@ button:hover {
 
 #zoomMeetingContainer {
   display: block !important;
-  margin-bottom: 5px;
 }
 
 #zoomMeetingContainer>div {
   width: 100%;
 }
-
-.zmwebsdk-MuiPaper-root>div:not(.cta-wrapper) {
+#menu-list-icon-more>li:not(li:nth-child(2)), #menu-list-icon-more>hr {
+  display: none;
+}
+.zmwebsdk-MuiPaper-root>div:not(.cta-wrapper, div:has(button)) {
   width: 100% !important;
 }
 .cta-wrapper {
@@ -90,7 +97,6 @@ button:hover {
 #suspension-view-tabpanel-active-active>div div:nth-child(2) {
   width: 100%;
 }
-
 #suspension-view-tabpanel-active-active>div {
   height: 100%;
   aspect-ratio: 2;
@@ -99,18 +105,34 @@ button:hover {
 [role="dialog"] {
   position: relative !important;
   transform: unset !important;
+}
+[role="dialog"][aria-label="Chat"] {
   margin-top: 5px;
 }
 [role="dialog"][aria-label="Chat"]>div>div>div:nth-child(2){
   height: min(50vh - 178px , 484px);
 }
-div[aria-label="header"] {
+[role="dialog"][aria-label="Chat"] div[aria-label="header"] {
   display: none;
+}
+[role="dialog"][aria-label="Reactions"]>div {
+  transform: unset;
+}
+[role="dialog"][aria-label="Reactions"] {
+  transform: unset !important;
+  bottom: 20px !important;
+  top: unset !important;
+  left: unset !important;
+  right: 20px;
+  position: fixed !important;
 }
 #zoomMeetingContainer>div>div>div {
   position: relative;
+  width: 100%;
 }
-
+button[title="Participants"], button[title="Share Screen"], #zoomMeetingContainer>div>div>div:nth-child(2)>:last-child {
+  display: none;
+}
 @media screen and (max-width: 1240px) {
   .meeting-container {
     grid-template-columns: 1fr;

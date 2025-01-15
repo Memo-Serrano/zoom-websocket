@@ -33,6 +33,10 @@ const targetNode = document.getElementById("zoomMeetingContainer");
 // Options for the observer (which mutations to observe)
 const config = { attributes: true, childList: true, subtree: true };
 
+let pageLoaded = false
+var alreadyClicked = false
+var sessionStarted = false;
+
 // Callback function to execute when mutations are observed
 const callback = (mutationList, observer) => {
   for (const mutation of mutationList) {
@@ -41,19 +45,36 @@ const callback = (mutationList, observer) => {
       if (document.querySelector("button[aria-label='More']")) {
       document.querySelector("button[aria-label='More']").click()
       document.querySelector("#menu-list-icon-more > li").click()
+      document.querySelector("button[aria-label='More']").click()
+      document.querySelector("#menu-list-icon-more > li:nth-child(2)").click()
       }
     }
     if(!document.querySelector('.zoom-wrapper [role="dialog"][aria-label="Chat"]') && document.querySelector('[role="dialog"][aria-label="Chat"]') && document.querySelector('#ZOOM_WEB_SDK_SELF_VIDEO ~ ul')) {
-      console.log('chat ava')
+      pageLoaded = true
+      sessionStarted = true
+      console.log(pageLoaded)
       document.querySelector('.zoom-wrapper').append(document.querySelector('[role="dialog"][aria-label="Chat"]'))
       document.querySelector('#zoomMeetingContainer > div > div > div').append(document.querySelector('.cta-wrapper'))
+      document.querySelector('.cta-wrapper').classList.remove('init-hidden')
+      document.querySelector('html').style.overflow = 'auto'
       if(window.innerWidth < 1240) {
         document.querySelector('.zoom-wrapper').insertBefore(document.querySelector('.meeting-sidebar'), document.querySelector('[role="dialog"][aria-label="Chat"]'))
       }
-      if(window.innerWidth < 680) {
-        window.innerWidth
+      if(window.innerWidth < 680 && !document.querySelector('.meeting-sidebar .cta-wrapper')) {
         document.querySelector('.meeting-sidebar').append(document.querySelector('.cta-wrapper'))
       }
+    }
+    if(pageLoaded && !document.querySelector('[role="dialog"][aria-label="Reactions"]') && !alreadyClicked) {
+      alreadyClicked = true
+      setTimeout(() => {
+        document.querySelector("button[aria-label='More']").click()
+        document.querySelector("#menu-list-icon-more > li:nth-child(2)").click()
+        alreadyClicked = false
+      }, 2000)
+    }
+    if(document.querySelector('#zoomMeetingContainer').innerHTML == '<div></div><div></div>' && sessionStarted == true) {
+      console.log('no meeting')
+      document.querySelector('body').innerHTML = '<h1>La Sesion ha terminado</h1>';
     }
   }
 };
@@ -68,8 +89,9 @@ function disconnectChatObserer() {
 }
 
 document.querySelectorAll('.cta-btn').forEach((el) => {
-  el.addEventListener('click', () => {
+  el.addEventListener('click', (e) => {
     document.querySelector('.checkout-wrapper').style.display = 'block'
+    e.target.closest('.cta-btn-wrapper').style.display = 'none'
   })
 })
 
@@ -80,9 +102,9 @@ window.onresize = (event) => {
     document.querySelector('.sidebar-wrapper').append(document.querySelector('.meeting-sidebar'))
   }
 
-  if(window.innerWidth < 680) {
+  if(window.innerWidth < 680 && !document.querySelector('.meeting-sidebar .cta-wrapper')) {
     document.querySelector('.meeting-sidebar').append(document.querySelector('.cta-wrapper'))
-  } else if (window.innerWidth > 680) {
+  } else if (window.innerWidth > 680 && document.querySelector('.meeting-sidebar .cta-wrapper')) {
     document.querySelector('#zoomMeetingContainer > div > div > div').append(document.querySelector('.cta-wrapper'))
   }
 };
