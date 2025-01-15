@@ -55,31 +55,35 @@ app.get('/signature', (req, res) => {
   res.json({ signature: sdkJWT.toString() });
 });
 
-let isButtonVisible = false;
 
 // WebSocket server
 const wss = new WebSocket.Server({ server });
+
+// Estado inicial de los elementos
+const elementStates = {
+  cta1: false, // Botón 1 (hiddenButton)
+  cta2: false, // Botón 2 (anotherButton)
+};
 
 // Manejar conexiones WebSocket
 wss.on('connection', (ws) => {
   console.log('Cliente conectado');
 
-  // Enviar el estado actual del botón al nuevo cliente
-  ws.send(JSON.stringify({ action: 'updateButton', visible: isButtonVisible }));
+  // Enviar el estado actual de los elementos al nuevo cliente
+  ws.send(JSON.stringify({ action: 'updateElements', states: elementStates }));
 
   // Manejar mensajes entrantes
   ws.on('message', (message) => {
     const msg = JSON.parse(message);
-    console.log('Mensaje recibido del cliente:', msg);
 
-    if (msg === 'showButton') {
-      // Cambiar el estado del botón a visible
-      isButtonVisible = true;
+    // Actualizar el estado de los elementos en el servidor
+    if (msg.action === 'toggleElement') {
+      elementStates[msg.element] = msg.visible;
 
-      // Reenviar el mensaje a todos los clientes conectados
+      // Reenviar el estado actualizado a todos los clientes
       wss.clients.forEach((client) => {
         if (client.readyState === WebSocket.OPEN) {
-          client.send(JSON.stringify({ action: 'showButton' }));
+          client.send(JSON.stringify({ action: 'updateElement', element: msg.element, visible: msg.visible }));
         }
       });
     }
