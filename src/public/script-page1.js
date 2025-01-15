@@ -96,7 +96,7 @@ document.querySelectorAll('.cta-btn').forEach((el) => {
 })
 
 window.onresize = (event) => {
-  if(window.innerWidth < 1240) {
+  if(window.innerWidth < 1240 && !document.querySelector('.zoom-wrapper .meeting-sidebar')) {
     document.querySelector('.zoom-wrapper').insertBefore(document.querySelector('.meeting-sidebar'), document.querySelector('[role="dialog"][aria-label="Chat"]'))
   } else if(window.innerWidth > 1240 && document.querySelector('.zoom-wrapper .meeting-sidebar')) {
     document.querySelector('.sidebar-wrapper').append(document.querySelector('.meeting-sidebar'))
