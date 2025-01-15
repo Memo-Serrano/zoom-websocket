@@ -34,10 +34,9 @@ const callback = (mutationList, observer) => {
     if (document.querySelector('[role="dialog"][aria-label="Chat"]')) {
     }
     if(!document.querySelector('.zoom-wrapper [role="dialog"][aria-label="Chat"]') && document.querySelector('[role="dialog"][aria-label="Chat"]')) {
-      document.querySelector('.zoom-wrapper').append(document.querySelector('[role="dialog"][aria-label="Chat"]'))
+      //document.querySelector('.zoom-wrapper').append(document.querySelector('[role="dialog"][aria-label="Chat"]'))
       if(window.innerWidth < 1240) {
-        console.log('window size: ' + window.innerWidth)
-        document.querySelector('.zoom-wrapper').insertBefore(document.querySelector('.meeting-sidebar'), document.querySelector('[role="dialog"][aria-label="Chat"]'))
+        //document.querySelector('.zoom-wrapper').insertBefore(document.querySelector('.meeting-sidebar'), document.querySelector('[role="dialog"][aria-label="Chat"]'))
       }
     }
   }
@@ -47,17 +46,15 @@ const callback = (mutationList, observer) => {
 const observer = new MutationObserver(callback);
 
 // Start observing the target node for configured mutations
-observer.observe(targetNode, config);
+/* observer.observe(targetNode, config);
 function disconnectChatObserer() {
   observer.disconnect();
-}
+} */
 
 window.onresize = (event) => {
   if(window.innerWidth < 1240) {
-    console.log('window size: ' + window.innerWidth)
     document.querySelector('.zoom-wrapper').insertBefore(document.querySelector('.meeting-sidebar'), document.querySelector('[role="dialog"][aria-label="Chat"]'))
   } else if(window.innerWidth > 1240 && document.querySelector('.zoom-wrapper .meeting-sidebar')) {
-    console.log('window size: ' + window.innerWidth)
     document.querySelector('.sidebar-wrapper').append(document.querySelector('.meeting-sidebar'))
   }
 };
