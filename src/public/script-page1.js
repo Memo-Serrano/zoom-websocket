@@ -6,9 +6,15 @@ const socketUrl = isProduction ? 'wss://test-boton-ptop.onrender.com' : 'ws://lo
 
 const socket = new WebSocket(socketUrl);
 
+// Manejar mensajes entrantes
 socket.onmessage = (event) => {
   const message = JSON.parse(event.data);
-  if (message === 'showButton') {
+
+  if (message.action === 'showButton') {
+    document.getElementById('hiddenButton').style.display = 'block';
+  }
+
+  if (message.action === 'updateButton' && message.visible) {
     document.getElementById('hiddenButton').style.display = 'block';
   }
 };
