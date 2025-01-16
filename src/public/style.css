@@ -137,8 +137,10 @@ button:hover {
 [role="dialog"][aria-label="Chat"]>div {
   min-width: auto;
 }
+
 [role="dialog"][aria-label="Chat"] textarea {
-  line-height: 1em;
+  line-height: 100%;
+  font-size: 15px;
 }
 
 [role="dialog"][aria-label="Chat"]>div>div>div:nth-child(2) {
@@ -148,7 +150,9 @@ button:hover {
 [role="dialog"][aria-label="Chat"] div[aria-label="header"] {
   display: none;
 }
-
+[role="dialog"][aria-label="Chat"] li span {
+  font-size: 1.3rem;
+}
 [role="dialog"][aria-label="Reactions"]>div {
   transform: unset;
 }
@@ -212,7 +216,7 @@ h1.timer-main {
   }
 
   #suspension-view-tabpanel-active-active>div {
-    height: 150px;
+    height: 47vw;
   }
 
   [role="dialog"][aria-label="Reactions"] {

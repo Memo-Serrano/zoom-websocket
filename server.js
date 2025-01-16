@@ -67,7 +67,82 @@ const elementStates = {
   timer2: false
 };
 
+//NEW ADDED V
+const timers = {
+  timer1: { remainingTime: 180, running: false }, // 10 minutos
+  timer2: { remainingTime: 1800, running: false }, // 20 minutos
+};
+
+// Función para iniciar un temporizador
+function startTimer(timerId) {
+  if (!timers[timerId].running) {
+    timers[timerId].running = true;
+    const interval = setInterval(() => {
+      if (timers[timerId].remainingTime > 0) {
+        timers[timerId].remainingTime--;
+        broadcast({
+          action: 'updateTimer',
+          timerId,
+          remainingTime: timers[timerId].remainingTime,
+        });
+      } else {
+        clearInterval(interval);
+        timers[timerId].running = false;
+      }
+    }, 1000);
+  }
+}
+// Emitir actualizaciones de temporizadores cada segundo
+setInterval(() => {
+  Object.keys(timers).forEach((timerId) => {
+    if (timers[timerId].running) {
+      broadcast({
+        action: 'updateTimer',
+        timerId,
+        remainingTime: timers[timerId].remainingTime,
+      });
+    }
+  });
+}, 1000);
+// Función para enviar mensajes a todos los clientes
+function broadcast(data) {
+  wss.clients.forEach((client) => {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(JSON.stringify(data));
+    }
+  });
+}
+//NEW ADDED A
+
 // Manejar conexiones WebSocket
+wss.on('connection', (ws) => {
+  console.log('Cliente conectado');
+
+  // Enviar el estado inicial al nuevo cliente
+  ws.send(
+    JSON.stringify({
+      action: 'initialize',
+      states: elementStates,
+      timers,
+    })
+  );
+
+  // Manejar mensajes entrantes
+  ws.on('message', (message) => {
+    const msg = JSON.parse(message);
+
+    if (msg.action === 'toggleElement') {
+      elementStates[msg.element] = msg.visible;
+      broadcast({ action: 'updateElement', element: msg.element, visible: msg.visible });
+
+      if (msg.element.startsWith('timer') && msg.visible) {
+        startTimer(msg.element);
+      }
+    }
+  });
+});
+
+/* // Manejar conexiones WebSocket
 wss.on('connection', (ws) => {
   console.log('Cliente conectado');
 
@@ -85,12 +160,12 @@ wss.on('connection', (ws) => {
       // Reenviar el estado actualizado a todos los clientes
       wss.clients.forEach((client) => {
         if (client.readyState === WebSocket.OPEN) {
-          client.send(JSON.stringify({ action: 'updateElement', element: msg.element, visible: msg.visible }));
+          client.send(JSON.stringify({ action: 'updateElement', element: msg.element, visible: msg.visible}));
         }
       });
     }
   });
-});
+}); */
 
 // Escuchar en el puerto asignado por Render o localhost
 const PORT = process.env.PORT || 3000;

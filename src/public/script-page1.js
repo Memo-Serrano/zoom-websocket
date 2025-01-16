@@ -6,7 +6,79 @@ const socketUrl = isProduction ? 'wss://test-boton-ptop.onrender.com' : 'ws://lo
 
 const socket = new WebSocket(socketUrl);
 
-// Manejar mensajes entrantes
+
+/* // Elementos del DOM
+const button1 = document.getElementById('cta1');
+const button2 = document.getElementById('cta2');
+const timer1 = document.getElementById('timer1');
+const timer2 = document.getElementById('timer2'); */
+
+let timerIntervals = {};
+
+// Manejar mensajes del servidor
+socket.onmessage = (event) => {
+  const data = JSON.parse(event.data);
+
+  if (data.action === 'initialize') {
+    Object.keys(data.states).forEach((id) => {
+      updateElement(document.getElementById(id), data.states[id]);
+    });
+
+    Object.keys(data.timers).forEach((id) => {
+      updateTimerDisplay(id, data.timers[id].remainingTime);
+      if (data.timers[id].running) {
+        startTimer(id, data.timers[id].remainingTime);
+      }
+    });
+  }
+
+  if (data.action === 'updateElement') {
+    updateElement(document.getElementById(data.element), data.visible);
+  }
+
+  if (data.action === 'updateTimer') {
+    const { timerId, remainingTime } = data;
+
+    // Actualizar el temporizador local
+    startTimer(timerId, remainingTime);
+    updateTimerDisplay(timerId, remainingTime); // Ajuste inmediato
+  }
+};
+
+// Actualizar la visibilidad de un elemento
+function updateElement(element, visible) {
+  element.classList.toggle('hidden', !visible);
+}
+
+// Actualizar la visualización del temporizador
+function updateTimerDisplay(timerId, seconds) {
+  const minutes = String(Math.floor(seconds / 60)).padStart(2, '0');
+  const remainingSeconds = String(seconds % 60).padStart(2, '0');
+  document.querySelector(`#${timerId} .timer-count`).innerText = `${minutes}:${remainingSeconds}`;
+}
+
+// Iniciar temporizador local con sincronización
+function startTimer(timerId, initialSeconds) {
+  if (timerIntervals[timerId]) clearInterval(timerIntervals[timerId]);
+
+  let seconds = initialSeconds;
+  const element = document.querySelector(`#${timerId} .timer-count`);
+
+  timerIntervals[timerId] = setInterval(() => {
+    if (seconds <= 0) {
+      clearInterval(timerIntervals[timerId]);
+      element.innerText = '¡Tiempo terminado!';
+      return;
+    }
+    seconds--;
+    updateTimerDisplay(timerId, seconds);
+  }, 1000);
+}
+
+/* const timerElement = document.querySelector('#timer-el1'); */
+
+
+/* // Manejar mensajes entrantes
 socket.onmessage = (event) => {
   const message = JSON.parse(event.data);
 
@@ -22,7 +94,7 @@ socket.onmessage = (event) => {
       element.style.display = states[elementId] ? 'block' : 'none';
     });
   }
-};
+}; */
 
 // Inicializar el Zoom Meeting
 initializeZoomMeeting();
@@ -86,9 +158,9 @@ const observer = new MutationObserver(callback);
 
 // Start observing the target node for configured mutations
 observer.observe(targetNode, config);
-function disconnectChatObserer() {
+/* function disconnectChatObserer() {
   observer.disconnect();
-}
+} */
 
 document.querySelectorAll('.cta-btn').forEach((el) => {
   el.addEventListener('click', (e) => {
@@ -111,15 +183,13 @@ window.onresize = (event) => {
   }
 };
 
-// Tiempo inicial en minutos y segundos
+/* // Tiempo inicial en minutos y segundos
 let minutes = 30;
 let seconds = 0;
 
 let mins2 = 3
 let secs2 = 0;
 
-// Actualizar el timer cada segundo
-const timerElement = document.querySelector('#timer-el1');
 const countdown = setInterval(() => {
   if (minutes === 0 && seconds === 0) {
     clearInterval(countdown);
@@ -161,20 +231,20 @@ const countdown2 = setInterval(() => {
 
     timerElement2.innerHTML = `${formattedMinutes}:${formattedSeconds}`;
   }
-}, 1000);
+}, 1000); */
 
-    // Solicitar permisos para cámara y micrófono
-    async function requestPermissions() {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-        //document.getElementById('status').innerText = "Permisos concedidos: ✅";
-        // Detener el stream para no usar la cámara y el micrófono innecesariamente
-        stream.getTracks().forEach(track => track.stop());
-      } catch (error) {
-        //document.getElementById('status').innerText = "Permisos denegados: ❌";
-        console.error("Error al obtener permisos:", error);
-      }
-    }
+// Solicitar permisos para cámara y micrófono
+async function requestPermissions() {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+    //document.getElementById('status').innerText = "Permisos concedidos: ✅";
+    // Detener el stream para no usar la cámara y el micrófono innecesariamente
+    stream.getTracks().forEach(track => track.stop());
+  } catch (error) {
+    //document.getElementById('status').innerText = "Permisos denegados: ❌";
+    console.error("Error al obtener permisos:", error);
+  }
+}
 
-    // Ejecutar la función al cargar la página
-    window.onload = requestPermissions;
+// Ejecutar la función al cargar la página
+window.onload = requestPermissions;
