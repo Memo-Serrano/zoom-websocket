@@ -132,9 +132,11 @@ const callback = (mutationList, observer) => {
       })
       document.querySelector('html').style.overflow = 'auto'
       if (window.innerWidth < 1240) {
+        console.log('less than 1240')
         document.querySelector('.zoom-wrapper').insertBefore(document.querySelector('.meeting-sidebar'), document.querySelector('[role="dialog"][aria-label="Chat"]'))
       }
       if (window.innerWidth < 680 && !document.querySelector('.meeting-sidebar .cta-wrapper')) {
+        console.log('less than 680')
         document.querySelector('.meeting-sidebar').append(document.querySelector('.cta-wrapper'))
       }
     }
@@ -170,15 +172,19 @@ document.querySelectorAll('.cta-btn').forEach((el) => {
 })
 
 window.onresize = (event) => {
-  if (window.innerWidth < 1240 && !document.querySelector('.zoom-wrapper .meeting-sidebar')) {
+  if (window.innerWidth < 1240 && !document.querySelector('.zoom-wrapper .meeting-sidebar') && sessionStarted) {
+    console.log('changed less than 1240')
     document.querySelector('.zoom-wrapper').insertBefore(document.querySelector('.meeting-sidebar'), document.querySelector('[role="dialog"][aria-label="Chat"]'))
-  } else if (window.innerWidth > 1240 && document.querySelector('.zoom-wrapper .meeting-sidebar')) {
+  } else if (window.innerWidth > 1240 && document.querySelector('.zoom-wrapper .meeting-sidebar') && sessionStarted) {
+    console.log('changed more than 1240')
     document.querySelector('.sidebar-wrapper').append(document.querySelector('.meeting-sidebar'))
   }
 
-  if (window.innerWidth < 680 && !document.querySelector('.meeting-sidebar .cta-wrapper')) {
+  if (window.innerWidth < 680 && !document.querySelector('.meeting-sidebar .cta-wrapper') && sessionStarted) {
+    console.log('changed less than 680')
     document.querySelector('.meeting-sidebar').append(document.querySelector('.cta-wrapper'))
-  } else if (window.innerWidth > 680 && document.querySelector('.meeting-sidebar .cta-wrapper')) {
+  } else if (window.innerWidth > 680 && document.querySelector('.meeting-sidebar .cta-wrapper') && sessionStarted) {
+    console.log('changed less than 680')
     document.querySelector('#zoomMeetingContainer > div > div > div').append(document.querySelector('.cta-wrapper'))
   }
 };
