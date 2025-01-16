@@ -121,7 +121,7 @@ const callback = (mutationList, observer) => {
         document.querySelector("#menu-list-icon-more > li:nth-child(2)").click()
       }
     }
-    if (!document.querySelector('.zoom-wrapper [role="dialog"][aria-label="Chat"]') && document.querySelector('[role="dialog"][aria-label="Chat"]') && document.querySelector('#ZOOM_WEB_SDK_SELF_VIDEO ~ ul')) {
+    if (!document.querySelector('.zoom-wrapper [role="dialog"][aria-label="Chat"]') && document.querySelector('[role="dialog"][aria-label="Chat"]') && document.querySelector('#zoom-sdk-video-canvas ~ ul')) {
       pageLoaded = true
       sessionStarted = true
       console.log(pageLoaded)
