@@ -61,6 +61,7 @@ button:hover {
 
 #zoomMeetingContainer {
   display: block !important;
+  margin-bottom: 5px;
 }
 
 #zoomMeetingContainer>div {
@@ -85,6 +86,7 @@ button:hover {
 .cta-main {
   margin: 0px;
   font-size: large;
+  color: white;
 }
 .cta-timer {
   font-size: large;
@@ -125,6 +127,7 @@ button:hover {
   left: unset !important;
   right: 20px;
   position: fixed !important;
+  z-index: 999;
 }
 #zoomMeetingContainer>div>div>div {
   position: relative;
@@ -137,10 +140,20 @@ button[title="Participants"], button[title="Share Screen"], #zoomMeetingContaine
   .meeting-container {
     grid-template-columns: 1fr;
   }
+  .sidebar-wrapper {
+    margin-left: 0px;
+  }
+  #suspension-view-tabpanel-active-active>div {
+    height: 330px;
+    aspect-ratio: 2;
+  }
 }
 
 @media screen and (max-width: 680px) {
   .cta-wrapper {
     position: unset;
+  }
+  #suspension-view-tabpanel-active-active>div {
+    height: 150px;
   }
 }
