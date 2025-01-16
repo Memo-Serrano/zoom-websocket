@@ -4,7 +4,7 @@ export async function initializeZoomMeeting() {
   const client = ZoomMtgEmbedded.createClient();
 
   const meetingNumber = '87423967832';
-  const userName = 'Guest User';
+  const userName = 'Invitado';
   const password = '718510';
 
   // Obtener la signature desde el servidor

@@ -140,11 +140,11 @@ button:hover {
 
 [role="dialog"][aria-label="Chat"] textarea {
   line-height: 100%;
-  font-size: 15px;
+  font-size: 16px;
 }
 
 [role="dialog"][aria-label="Chat"]>div>div>div:nth-child(2) {
-  height: min(50vh - 178px, 484px);
+  height: min(35vh);
 }
 
 [role="dialog"][aria-label="Chat"] div[aria-label="header"] {
