@@ -1,6 +1,7 @@
 html {
   overflow: hidden;
 }
+
 body {
   font-family: Arial, sans-serif;
   background-color: #000 !important;
@@ -11,6 +12,7 @@ body {
   color: #ffffff;
   font-size: small;
 }
+
 #hiddenButton {
   display: none;
   padding: 10px 20px;
@@ -34,10 +36,12 @@ button {
 button:hover {
   background-color: #0056b3;
 }
+
 .sidebar-wrapper {
   height: 100%;
   margin-left: 5px;
 }
+
 .meeting-sidebar {
   border-radius: 6px;
   box-shadow: rgba(0, 0, 0, 0.3) 0px 8px 24px;
@@ -45,16 +49,22 @@ button:hover {
   background: #242424;
   height: 100%;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
+
 .init-hidden {
   display: none !important;
 }
+
 .meeting-container {
   display: grid;
   grid-template-columns: 80% 20%;
   justify-content: center;
   align-items: start;
 }
+
 .zmwebsdk-makeStyles-singleView-7 .zoommtg-drag-video {
   display: none;
 }
@@ -66,39 +76,50 @@ button:hover {
 
 #zoomMeetingContainer>div {
   width: 100%;
+  transform: unset !important;
 }
-#menu-list-icon-more>li:not(li:nth-child(2)), #menu-list-icon-more>hr {
+
+#menu-list-icon-more>li:not(li:nth-child(2)),
+#menu-list-icon-more>hr {
   display: none;
 }
+
 .zmwebsdk-MuiPaper-root>div:not(.cta-wrapper, div:has(button)) {
   width: 100% !important;
 }
+
 .cta-wrapper {
   position: absolute;
   bottom: 30px;
   left: 30px;
 }
+
 .cta-btn-wrapper {
   background-color: #00000059;
   padding: 20px;
   text-align: center;
 }
+
 .cta-main {
   margin: 0px;
   font-size: large;
   color: white;
 }
+
 .cta-timer {
   font-size: large;
   display: none;
 }
+
 .cta-btn {
   width: 100%;
   margin: 5px 0;
 }
+
 #suspension-view-tabpanel-active-active>div div:nth-child(2) {
   width: 100%;
 }
+
 #suspension-view-tabpanel-active-active>div {
   height: 100%;
   aspect-ratio: 2;
@@ -108,18 +129,30 @@ button:hover {
   position: relative !important;
   transform: unset !important;
 }
+
 [role="dialog"][aria-label="Chat"] {
   margin-top: 5px;
 }
-[role="dialog"][aria-label="Chat"]>div>div>div:nth-child(2){
-  height: min(50vh - 178px , 484px);
+
+[role="dialog"][aria-label="Chat"]>div {
+  min-width: auto;
 }
+[role="dialog"][aria-label="Chat"] textarea {
+  line-height: 1em;
+}
+
+[role="dialog"][aria-label="Chat"]>div>div>div:nth-child(2) {
+  height: min(50vh - 178px, 484px);
+}
+
 [role="dialog"][aria-label="Chat"] div[aria-label="header"] {
   display: none;
 }
+
 [role="dialog"][aria-label="Reactions"]>div {
   transform: unset;
 }
+
 [role="dialog"][aria-label="Reactions"] {
   transform: unset !important;
   bottom: 20px !important;
@@ -129,20 +162,44 @@ button:hover {
   position: fixed !important;
   z-index: 999;
 }
+
 #zoomMeetingContainer>div>div>div {
   position: relative;
   width: 100%;
 }
-button[title="Participants"], button[title="Share Screen"], #zoomMeetingContainer>div>div>div:nth-child(2)>:last-child {
+
+button[title="Participants"],
+button[title="Share Screen"],
+#zoomMeetingContainer>div>div>div:nth-child(2)>:last-child {
   display: none;
+}
+
+.timer-wrapper {
+  background: #000;
+  border-radius: 3px;
+  padding: 10px;
+}
+.timer-count {
+  color: white;
+  text-align: center;
+  font-size: 50px;
+  font-weight: 900;
+}
+h1.timer-main {
+  font-size: 20px;
+  color: white;
+  text-align: center;
+  margin: 0;
 }
 @media screen and (max-width: 1240px) {
   .meeting-container {
     grid-template-columns: 1fr;
   }
+
   .sidebar-wrapper {
     margin-left: 0px;
   }
+
   #suspension-view-tabpanel-active-active>div {
     height: 330px;
     aspect-ratio: 2;
@@ -153,7 +210,19 @@ button[title="Participants"], button[title="Share Screen"], #zoomMeetingContaine
   .cta-wrapper {
     position: unset;
   }
+
   #suspension-view-tabpanel-active-active>div {
     height: 150px;
+  }
+
+  [role="dialog"][aria-label="Reactions"] {
+    transform: unset !important;
+    bottom: unset !important;
+    top: unset !important;
+    left: unset !important;
+    right: unset;
+    position: relative !important;
+    margin-top: 10px;
+    z-index: 999;
   }
 }

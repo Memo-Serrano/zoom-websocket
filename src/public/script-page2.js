@@ -25,3 +25,19 @@ document.getElementById('toggleButton2').addEventListener('click', () => {
 document.getElementById('hideButton2').addEventListener('click', () => {
   toggleElement('cta2', false);
 });
+
+document.getElementById('toggleButton3').addEventListener('click', () => {
+  toggleElement('timer1', true);
+});
+
+document.getElementById('hideButton3').addEventListener('click', () => {
+  toggleElement('timer1', false);
+});
+
+document.getElementById('toggleButton4').addEventListener('click', () => {
+  toggleElement('timer2', true);
+});
+
+document.getElementById('hideButton4').addEventListener('click', () => {
+  toggleElement('timer2', false);
+});

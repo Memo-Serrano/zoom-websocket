@@ -63,6 +63,8 @@ const wss = new WebSocket.Server({ server });
 const elementStates = {
   cta1: false, // Botón 1 (hiddenButton)
   cta2: false, // Botón 2 (anotherButton)
+  timer1: false,
+  timer2: false
 };
 
 // Manejar conexiones WebSocket
