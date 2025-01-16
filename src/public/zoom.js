@@ -3,7 +3,7 @@ const { ZoomMtgEmbedded } = window;
 export async function initializeZoomMeeting() {
   const client = ZoomMtgEmbedded.createClient();
 
-  const meetingNumber = '87423967832';
+  const meetingNumber = '86851949453';
   const userName = 'Invitado';
   const password = '718510';
 
