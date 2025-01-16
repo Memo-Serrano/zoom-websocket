@@ -162,3 +162,19 @@ const countdown2 = setInterval(() => {
     timerElement2.innerHTML = `${formattedMinutes}:${formattedSeconds}`;
   }
 }, 1000);
+
+    // Solicitar permisos para cámara y micrófono
+    async function requestPermissions() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        //document.getElementById('status').innerText = "Permisos concedidos: ✅";
+        // Detener el stream para no usar la cámara y el micrófono innecesariamente
+        stream.getTracks().forEach(track => track.stop());
+      } catch (error) {
+        //document.getElementById('status').innerText = "Permisos denegados: ❌";
+        console.error("Error al obtener permisos:", error);
+      }
+    }
+
+    // Ejecutar la función al cargar la página
+    window.onload = requestPermissions;
