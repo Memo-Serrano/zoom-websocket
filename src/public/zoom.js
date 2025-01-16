@@ -5,7 +5,7 @@ export async function initializeZoomMeeting() {
 
   const meetingNumber = '86851949453';
   const userName = 'Invitado';
-  const password = '718510';
+  const password = ''/*'718510'*/;
 
   // Obtener la signature desde el servidor
   const response = await fetch(`/signature?meetingNumber=${meetingNumber}`);
