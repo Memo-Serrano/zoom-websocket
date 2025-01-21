@@ -96,8 +96,17 @@ socket.onmessage = (event) => {
   }
 }; */
 
-// Inicializar el Zoom Meeting
-initializeZoomMeeting();
+function getParameterByName(name, url = window.location.href) {
+  name = name.replace(/[\[\]]/g, '\\$&');
+  const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+  const results = regex.exec(url);
+  if (!results) return null;
+  if (!results[2]) return '';
+  if (name == 'he' || name == 'user_email') { return decodeURIComponent(results[2]); }
+  else { return decodeURIComponent(results[2].replace(/\+/g, ' ')); }
+}
+
+initializeZoomMeeting(getParameterByName('email'), getParameterByName('meetingID'))
 
 // Select the node that will be observed for mutations
 const targetNode = document.getElementById("zoomMeetingContainer");

@@ -41,3 +41,27 @@ document.getElementById('toggleButton4').addEventListener('click', () => {
 document.getElementById('hideButton4').addEventListener('click', () => {
   toggleElement('timer2', false);
 });
+
+document.getElementById('toggleButton5').addEventListener('click', () => {
+  toggleElement('timer3', true);
+});
+
+document.getElementById('hideButton5').addEventListener('click', () => {
+  toggleElement('timer3', false);
+});
+
+document.getElementById('toggleButton6').addEventListener('click', () => {
+  toggleElement('timer4', true);
+});
+
+document.getElementById('hideButton6').addEventListener('click', () => {
+  toggleElement('timer4', false);
+});
+
+document.getElementById('toggleButton7').addEventListener('click', () => {
+  toggleElement('timer5', true);
+});
+
+document.getElementById('hideButton7').addEventListener('click', () => {
+  toggleElement('timer5', false);
+});

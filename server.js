@@ -64,13 +64,19 @@ const elementStates = {
   cta1: false, // Botón 1 (hiddenButton)
   cta2: false, // Botón 2 (anotherButton)
   timer1: false,
-  timer2: false
+  timer2: false,
+  timer3: false,
+  timer4: false,
+  timer5: false
 };
 
 //NEW ADDED V
 const timers = {
-  timer1: { remainingTime: 180, running: false }, // 10 minutos
-  timer2: { remainingTime: 1800, running: false }, // 20 minutos
+  timer1: { remainingTime: 1800, running: false }, // 30 minutos
+  timer2: { remainingTime: 180, running: false }, // 3 minutos
+  timer3: { remainingTime: 180, running: false }, // 3 minutos
+  timer4: { remainingTime: 180, running: false }, // 3 minutos
+  timer5: { remainingTime: 180, running: false } // 3 minutos
 };
 
 // Función para iniciar un temporizador
@@ -92,6 +98,7 @@ function startTimer(timerId) {
     }, 1000);
   }
 }
+
 // Emitir actualizaciones de temporizadores cada segundo
 setInterval(() => {
   Object.keys(timers).forEach((timerId) => {
@@ -112,6 +119,7 @@ function broadcast(data) {
     }
   });
 }
+
 //NEW ADDED A
 
 // Manejar conexiones WebSocket
@@ -165,6 +173,16 @@ wss.on('connection', (ws) => {
       });
     }
   });
+}); */
+
+/* app.get('/join', (req, res) => {
+  const email = req.query.email;
+  const meetingId = req.query.meeting_id;
+
+  if (!email || !meetingId) {
+    return res.status(400).send('Faltan parámetros: email y/o meeting_id');
+  }
+  initializeZoomMeeting(meetingId);//generateSignature(meetingId, role); // Asegúrate de tener esta función definida
 }); */
 
 // Escuchar en el puerto asignado por Render o localhost
