@@ -1,6 +1,15 @@
 const { ZoomMtgEmbedded } = window;
 
 export async function initializeZoomMeeting(email, meeting_number) {
+  // Detectar si está en producción
+  const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+
+  // Configurar la URL base
+  const baseUrl = isProduction ? 'https://your-render-app-url.onrender.com' : 'http://localhost:3000';
+
+  // Cambiar el fondo virtual
+  const imageUrl = `${baseUrl}/images/Elite.png`;
+
   const client = ZoomMtgEmbedded.createClient();
 
   const password = '718510';
@@ -12,6 +21,11 @@ export async function initializeZoomMeeting(email, meeting_number) {
   client.init({
     zoomAppRoot: document.getElementById('zoomMeetingContainer'),
     language: 'en-US',
+    customize: {
+      virtualBackground: {
+        isEnabled: true,
+      },
+    },
   });
 
   const myHeaders = new Headers();
@@ -43,4 +57,19 @@ export async function initializeZoomMeeting(email, meeting_number) {
       });
     })
     .catch((error) => console.error(error));
+
+  // Función para establecer un fondo virtual
+  function changeVirtualBackground(imageUrl) {
+    client.setVirtualBackground({
+      backgroundType: 'image',
+      imageUrl, // URL de la imagen que deseas usar como fondo
+    }).then(() => {
+      console.log('Fondo virtual cambiado con éxito');
+    }).catch((error) => {
+      console.error('Error al cambiar el fondo virtual:', error);
+    });
+  }
+
+  // Llamar a la función con una URL de fondo
+  changeVirtualBackground(imageUrl);
 }

@@ -16,6 +16,13 @@ app.use(express.static('src/public', {
   }
 }));
 
+// Middleware para configurar COOP y COEP
+app.use((req, res, next) => {
+  res.setHeader('Cross-Origin-Opener-Policy', 'same-origin'); // COOP
+  res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp'); // COEP
+  next();
+});
+
 // Zoom SDK credentials
 const SDK_KEY = 'UEEbOouT0wWC14opf66w';
 const SDK_SECRET = 'WV10DUSHL059A9FWoYIbgu35MFmXF5Zv';
