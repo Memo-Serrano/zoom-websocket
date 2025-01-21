@@ -3,9 +3,14 @@ const http = require('http');
 const WebSocket = require('ws');
 const crypto = require('crypto');
 const KJUR = require('jsrsasign')
+const path = require('path');
 
 const app = express();
 const server = http.createServer(app);
+
+// Sirve los archivos estáticos de node_modules
+console.log('Static files served from:', path.join(__dirname, 'node_modules'));
+app.use('/modules', express.static(path.join(__dirname, 'node_modules')));
 
 // Servir archivos estáticos desde 'src/public'
 app.use(express.static('src/public', {
@@ -13,13 +18,15 @@ app.use(express.static('src/public', {
     if (path.endsWith('.js')) {
       res.setHeader('Content-Type', 'application/javascript');
     }
+    res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
+    res.setHeader('Cross-Origin-Embedder-Policy', 'credentialless');
   }
 }));
 
 // Middleware para configurar COOP y COEP
 app.use((req, res, next) => {
   res.setHeader('Cross-Origin-Opener-Policy', 'same-origin'); // COOP
-  res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp'); // COEP
+  res.setHeader('Cross-Origin-Embedder-Policy', 'credentialless'); // COEP
   next();
 });
 

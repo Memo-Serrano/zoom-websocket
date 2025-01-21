@@ -1,17 +1,21 @@
 const { ZoomMtgEmbedded } = window;
+//import { Client } from '/modules/@zoom/meetingsdk/dist/zoom-meeting-embedded-ES5.min.js';
+//import ZoomMtgEmbedded from '/modules/@zoom/meetingsdk/dist/embedded';
+
 
 export async function initializeZoomMeeting(email, meeting_number) {
   // Detectar si está en producción
   const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
 
   // Configurar la URL base
-  const baseUrl = isProduction ? 'https://your-render-app-url.onrender.com' : 'http://localhost:3000';
+  const baseUrl = isProduction ? 'https://evento.conmemo.com' : 'http://localhost:3000';
 
   // Cambiar el fondo virtual
   const imageUrl = `${baseUrl}/images/Elite.png`;
 
   const client = ZoomMtgEmbedded.createClient();
 
+  //const client = new Client();
   const password = '718510';
 
   // Obtener la signature desde el servidor
@@ -20,6 +24,7 @@ export async function initializeZoomMeeting(email, meeting_number) {
 
   client.init({
     zoomAppRoot: document.getElementById('zoomMeetingContainer'),
+    debug: true,
     language: 'en-US',
     customize: {
       virtualBackground: {
@@ -45,6 +50,13 @@ export async function initializeZoomMeeting(email, meeting_number) {
     redirect: "follow"
   };
 
+  const vbList = [{
+    displayName: 'Fondo Elite',
+    fileName: 'Elite',
+    id: '1111',
+    url: 'http://localhost:3000/images/Elite.png'
+  }]
+
   fetch("https://rest.gohighlevel.com/v1/contacts", requestOptions)
     .then((response) => response.json())
     .then((result) => {
@@ -54,22 +66,15 @@ export async function initializeZoomMeeting(email, meeting_number) {
         meetingNumber: meeting_number,
         password: password,
         userName: `${result.contact.firstName} ${result.contact.lastName}`,
-      });
+      }).then(() => {
+        client.updateVirtualBackgroundList(vbList).then(() => {
+          setTimeout(() => client.setVirtualBackground('1111'), 100);
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+        
+      }).catch((error) => console.error('Error al unirse a la reunión:', error));
     })
     .catch((error) => console.error(error));
-
-  // Función para establecer un fondo virtual
-  function changeVirtualBackground(imageUrl) {
-    client.setVirtualBackground({
-      backgroundType: 'image',
-      imageUrl, // URL de la imagen que deseas usar como fondo
-    }).then(() => {
-      console.log('Fondo virtual cambiado con éxito');
-    }).catch((error) => {
-      console.error('Error al cambiar el fondo virtual:', error);
-    });
-  }
-
-  // Llamar a la función con una URL de fondo
-  changeVirtualBackground(imageUrl);
 }
