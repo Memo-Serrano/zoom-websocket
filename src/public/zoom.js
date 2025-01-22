@@ -54,7 +54,7 @@ export async function initializeZoomMeeting(email, meeting_number) {
     displayName: 'Fondo Elite',
     fileName: 'Elite',
     id: '1111',
-    url: 'http://localhost:3000/images/Elite.png'
+    url: imageUrl
   }]
 
   fetch("https://rest.gohighlevel.com/v1/contacts", requestOptions)
