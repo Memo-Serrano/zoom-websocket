@@ -30,6 +30,19 @@ export async function initializeZoomMeeting(email, meeting_number) {
       virtualBackground: {
         isEnabled: true,
       },
+      video: {
+        popper: {
+          disableDraggable: true
+        },
+        isResizable: true,
+        defaultViewType: 'active',
+        viewSizes: {
+          default: {
+            width: 1000,
+            height: 600
+          }
+        }
+      }
     },
   });
 
@@ -38,7 +51,7 @@ export async function initializeZoomMeeting(email, meeting_number) {
   myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2NhdGlvbl9pZCI6IlQ0bHhiVWdxVFhlaWRRZ1pDV0NkIiwiY29tcGFueV9pZCI6IlgzaGdlNFFxbUVRYmdiNGcxWTE4IiwidmVyc2lvbiI6MSwiaWF0IjoxNzA2NzQ0NjU0NDE1LCJzdWIiOiJ1c2VyX2lkIn0._ke4US2bIL2MNsdMm9GYTGQ8wQtbBBLW0UAFjcr6M78");
 
   const raw = JSON.stringify({
-    "email": email,
+    "email": decodeURIComponent(email),
     "tags": 'attendee_zoom'
   });
 
@@ -60,6 +73,7 @@ export async function initializeZoomMeeting(email, meeting_number) {
   fetch("https://rest.gohighlevel.com/v1/contacts", requestOptions)
     .then((response) => response.json())
     .then((result) => {
+      
       client.join({
         sdkKey: 'UEEbOouT0wWC14opf66w',
         signature: data.signature,

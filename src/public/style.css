@@ -66,6 +66,10 @@ button:hover {
 }
 
 .zmwebsdk-makeStyles-singleView-7 .zoommtg-drag-video {
+  cursor: unset;
+  justify-content: end;
+}
+.zmwebsdk-makeStyles-singleView-7 .zoommtg-drag-video>div:nth-child(1) {
   display: none;
 }
 
@@ -78,14 +82,74 @@ button:hover {
   width: 100%;
   transform: unset !important;
 }
+#zoomMeetingContainer>div:nth-child(1) {
+  position: relative;
+}
 
 #menu-list-icon-more>li:not(li:nth-child(2)),
 #menu-list-icon-more>hr {
   display: none;
 }
-
+.react-resizable-handle {
+  display: none;
+}
 .zmwebsdk-MuiPaper-root>div:not(.cta-wrapper, div:has(button)) {
   width: 100% !important;
+}
+
+.zoom-wrapper {
+  position: relative;
+}
+
+.reactions-container {
+  position: absolute;
+  right: 30px;
+  transform: translateY(-100%);
+  top: 0px;
+  display: none;
+  cursor: pointer;
+}
+
+.rise-hand-item {
+  transition: all 0.1s;
+}
+.reactions-container:hover .rise-hand-item {
+  transform: scale(1.2);
+}
+.reactions-container:hover .rise-hand-label {
+  opacity: 1;
+  visibility: visible;
+  top: -10px;
+}
+.reactions-container:hover .lower-hand-label {
+  bottom: -20px;
+}
+.hand-label {
+  background: #00000085;
+  color: white;
+  padding: 5px;
+  text-align: center;
+  border-radius: 3px;
+}
+
+.rise-hand-label {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translate(-50%, -100%);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.1s;
+}
+
+.lower-hand-label {
+  display: none;
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  width: max-content;
+  transition: all 0.1s;
 }
 
 .cta-wrapper {
@@ -169,6 +233,7 @@ button:hover {
   right: 20px;
   position: fixed !important;
   z-index: 999;
+  display: none !important;
 }
 
 #zoomMeetingContainer>div>div>div {
@@ -181,6 +246,10 @@ button[title="Settings"],
 button[title="Chat"],
 button[title="Participants"],
 button[title="Share Screen"],
+button[title="Share Screen"] ~ div:not(div:has([title="More"])),
+button[title="Show captions"],
+button[title="Caption settings"],
+button[title="More"],
 #zoomMeetingContainer>div>div>div:nth-child(2)>:last-child {
   display: none;
 }
@@ -223,6 +292,27 @@ h1.timer-main {
   #suspension-view-tabpanel-active-active>div {
     height: 330px;
     aspect-ratio: 2;
+  }
+  
+  .reactions-container:hover .rise-hand-item {
+    transform: unset;
+  }
+  .reactions-container {
+    right: 10px;
+    transform: translateY(-50%);
+  }
+  .rise-hand-item {
+    width: 34px;
+  }
+  
+  .lower-hand-label, .rise-hand-label {
+    bottom: 0px !important;
+    top: unset !important;
+    left: 0%;
+    transform: translate(-100%, -50%);
+    font-size: 8px;
+    visibility: visible !important;
+    opacity: 1 !important;
   }
 }
 

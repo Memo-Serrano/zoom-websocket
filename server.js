@@ -189,15 +189,26 @@ wss.on('connection', (ws) => {
   });
 }); */
 
-/* app.get('/join', (req, res) => {
+app.get('/join', (req, res) => {
   const email = req.query.email;
-  const meetingId = req.query.meeting_id;
+  const meetingId = req.query.meetingID;
 
   if (!email || !meetingId) {
-    return res.status(400).send('Faltan parámetros: email y/o meeting_id');
+    return res.status(400).send(`Acceso no autorizado: ${email}, ${meetingId}`);
   }
-  initializeZoomMeeting(meetingId);//generateSignature(meetingId, role); // Asegúrate de tener esta función definida
-}); */
+
+  res.cookie('zue', email, {
+    maxAge: 3600000/* ,
+    domain: 'evento.conmemo.com', */
+  });
+
+  res.cookie('zmid', meetingId, {
+    maxAge: 3600000/* ,
+    domain: 'evento.conmemo.com', */
+  });
+
+  res.redirect('/');
+});
 
 // Escuchar en el puerto asignado por Render o localhost
 const PORT = process.env.PORT || 3000;
