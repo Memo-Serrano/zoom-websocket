@@ -1,5 +1,6 @@
 import { initializeZoomMeeting } from './zoom.js';
-
+const { ZoomMtgEmbedded } = window;
+const client = ZoomMtgEmbedded.createClient();
 // Detectar si está en local o en producción
 const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
 const socketUrl = isProduction ? 'wss://evento.conmemo.com' : 'ws://localhost:3000';
@@ -92,8 +93,15 @@ var clientReady = false;
 // Callback function to execute when mutations are observed
 const callback = (mutationList, observer) => {
   for (const mutation of mutationList) {
-    if(document.querySelector('#zoom-sdk-video-canvas ~ ul>li')) clientReady = true //Checks if there are users added in meeting
-
+    if (document.querySelector('#zoom-sdk-video-canvas ~ ul>li') && !clientReady) {
+      clientReady = true //Checks if there are users added in meeting
+    }
+    if(clientReady) {
+      if(client.getVirtualBackgroundStatus().vbList[1].id == 'custom' && client.getVirtualBackgroundStatus().id !== 'custom') {
+        client.setVirtualBackground('custom')
+      }
+    }
+    
     if (!document.querySelector('[role="dialog"][aria-label="Chat"]') && clientReady) {
       console.log('Enabling Chat Window...')
       if (document.querySelector("button[aria-label='More']")) {
@@ -121,7 +129,7 @@ const callback = (mutationList, observer) => {
     if (document.querySelector('#zoomMeetingContainer').innerHTML == '<div></div><div></div>' && clientReady) {
       document.querySelector('body').innerHTML = '<h1>La Sesion ha terminado</h1>';
     }
-    if(clientReady) {
+    if (clientReady) {
       document.querySelector('.reactions-container').style.top = `${document.querySelector('#zoomMeetingContainer').offsetHeight - 50}px`
       document.querySelector('.reactions-container').style.display = 'block'
     }
@@ -129,7 +137,7 @@ const callback = (mutationList, observer) => {
 };
 
 document.querySelector('.reactions-container').addEventListener('click', (e) => {
-  if(document.querySelector("button:has(h6)")) {
+  if (document.querySelector("button:has(h6)")) {
     document.querySelector("button:has(h6)").click()
     document.querySelector(".lower-hand-label").style.display = 'none'
     document.querySelector(".rise-hand-label").style.display = 'block'

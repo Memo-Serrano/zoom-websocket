@@ -66,7 +66,7 @@ export async function initializeZoomMeeting(email, meeting_number) {
   const vbList = [{
     displayName: 'Fondo Elite',
     fileName: 'Elite',
-    id: '1111',
+    id: 'custom',
     url: imageUrl
   }]
 
@@ -82,7 +82,7 @@ export async function initializeZoomMeeting(email, meeting_number) {
         userName: `${result.contact.firstName} ${result.contact.lastName}`,
       }).then(() => {
         client.updateVirtualBackgroundList(vbList).then(() => {
-          setTimeout(() => client.setVirtualBackground('1111'), 100);
+          //setTimeout(() => client.setVirtualBackground('1111'), 100);
         })
         .catch((error) => {
           console.error('Error:', error);
