@@ -6,7 +6,6 @@
     },
     "dependencies": {
         "@zoom/meetingsdk": "^3.11.2",
-        "@zoomus/websdk": "^2.15.0",
         "dotenv": "^16.0.3",
         "express": "^4.17.1",
         "jsrsasign": "^11.1.0",

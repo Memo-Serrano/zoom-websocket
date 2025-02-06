@@ -24,7 +24,6 @@ export async function initializeZoomMeeting(email, meeting_number) {
 
   client.init({
     zoomAppRoot: document.getElementById('zoomMeetingContainer'),
-    debug: true,
     language: 'en-US',
     customize: {
       virtualBackground: {
@@ -66,9 +65,17 @@ export async function initializeZoomMeeting(email, meeting_number) {
   const vbList = [{
     displayName: 'Fondo Elite',
     fileName: 'Elite',
-    id: 'custom',
+    id: 'program',
     url: imageUrl
   }]
+
+  client.on("connection-change", (payload) => {
+    if (payload.state === 'Closed') {
+      console.log("Meeting ended")
+      document.querySelector('body').append(document.querySelector('[role="dialog"][aria-label="Chat"]'))
+      //document.querySelector('body').innerHTML = '<h1>La Sesion ha terminado</h1>';
+    }
+   })
 
   fetch("https://rest.gohighlevel.com/v1/contacts", requestOptions)
     .then((response) => response.json())
@@ -81,12 +88,12 @@ export async function initializeZoomMeeting(email, meeting_number) {
         password: password,
         userName: `${result.contact.firstName} ${result.contact.lastName}`,
       }).then(() => {
-        client.updateVirtualBackgroundList(vbList).then(() => {
-          //setTimeout(() => client.setVirtualBackground('1111'), 100);
+        /* client.updateVirtualBackgroundList(vbList).then(() => {
+          client.setVirtualBackground('program')
         })
         .catch((error) => {
           console.error('Error:', error);
-        });
+        }); */
         
       }).catch((error) => console.error('Error al unirse a la reunión:', error));
     })

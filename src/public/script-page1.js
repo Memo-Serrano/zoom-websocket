@@ -89,28 +89,52 @@ const targetNode = document.getElementById("zoomMeetingContainer");
 const config = { attributes: true, childList: true, subtree: true };
 
 var clientReady = false;
-
+var chatEnabled = false;
+var sessionEnded = false;
 // Callback function to execute when mutations are observed
+
 const callback = (mutationList, observer) => {
   for (const mutation of mutationList) {
     if (document.querySelector('#zoom-sdk-video-canvas ~ ul>li') && !clientReady) {
+      console.log('Client Ready');
       clientReady = true //Checks if there are users added in meeting
     }
     if(clientReady) {
-      if(client.getVirtualBackgroundStatus().vbList[1].id == 'custom' && client.getVirtualBackgroundStatus().id !== 'custom') {
-        client.setVirtualBackground('custom')
+      if(client.getVirtualBackgroundStatus().vbList[1].id == 'program' && client.getVirtualBackgroundStatus().id !== 'program') {
+        setTimeout(() => {
+          // Configurar la URL base
+          const baseUrl = isProduction ? 'https://evento.conmemo.com' : 'http://localhost:3000';
+
+          // Cambiar el fondo virtual
+          const imageUrl = `${baseUrl}/images/Elite.png`;
+          const vbList = [{
+            displayName: 'Fondo Elite',
+            fileName: 'Elite',
+            id: 'customprogram',
+            url: imageUrl
+          }]
+          client.updateVirtualBackgroundList(vbList).then(() => {
+            client.setVirtualBackground('program')
+          })
+        }, 1000)
       }
     }
     
-    if (!document.querySelector('[role="dialog"][aria-label="Chat"]') && clientReady) {
+    if (!document.querySelector('[role="dialog"][aria-label="Chat"]') && clientReady && !document.querySelector("#menu-list-icon-more > li") && !chatEnabled) {
       console.log('Enabling Chat Window...')
-      if (document.querySelector("button[aria-label='More']")) {
-        document.querySelector("button[aria-label='More']").click()
-        document.querySelector("#menu-list-icon-more > li").click()
-        /* document.querySelector("button[aria-label='More']").click()
-        document.querySelector("#menu-list-icon-more > li:nth-child(2)").click() */
-      }
+        if(document.querySelector('button[title="Chat"]')) {
+          document.querySelector('button[title="Chat"]').click()
+        } else {
+          document.querySelector("button[aria-label='More']").click()
+        }
+        
     }
+    if (!document.querySelector('[role="dialog"][aria-label="Chat"]') && clientReady && document.querySelector("#menu-list-icon-more > li") && !chatEnabled) {
+          document.querySelector("#menu-list-icon-more > li").click()
+    }
+
+    if(document.querySelector('[role="dialog"][aria-label="Chat"]')) chatEnabled = true;
+
     if (!document.querySelector('.zoom-wrapper [role="dialog"][aria-label="Chat"]') && document.querySelector('[role="dialog"][aria-label="Chat"]') && clientReady) {
       console.log('Chat Window Ready')
       document.querySelector('.zoom-wrapper').append(document.querySelector('[role="dialog"][aria-label="Chat"]'))
@@ -126,28 +150,37 @@ const callback = (mutationList, observer) => {
         document.querySelector('.meeting-sidebar').append(document.querySelector('.cta-wrapper'))
       }
     }
-    if (document.querySelector('#zoomMeetingContainer').innerHTML == '<div></div><div></div>' && clientReady) {
-      document.querySelector('body').innerHTML = '<h1>La Sesion ha terminado</h1>';
+    if (document.querySelector('#zoomMeetingContainer div[aria-label="Zoom app container"]') && clientReady) {
+      if (document.querySelector('#zoomMeetingContainer div[aria-label="Zoom app container"]').innerHTML == '<div></div>') {
+        document.querySelector('body').innerHTML = '<h1>La Sesion ha terminado</h1>';
+        sessionEnded = true;
+      }
     }
-    if (clientReady) {
+
+    if (clientReady && !sessionEnded) {
       document.querySelector('.reactions-container').style.top = `${document.querySelector('#zoomMeetingContainer').offsetHeight - 50}px`
       document.querySelector('.reactions-container').style.display = 'block'
     }
   }
 };
 
+
 document.querySelector('.reactions-container').addEventListener('click', (e) => {
-  if (document.querySelector("button:has(h6)")) {
-    document.querySelector("button:has(h6)").click()
-    document.querySelector(".lower-hand-label").style.display = 'none'
-    document.querySelector(".rise-hand-label").style.display = 'block'
-  } else {
-    document.querySelector("button[aria-label='More']").click()
-    document.querySelector("#menu-list-icon-more > li:nth-child(2)").click()
-    document.querySelector(".lower-hand-label").style.display = 'block'
-    document.querySelector(".rise-hand-label").style.display = 'none'
-    document.querySelector("button:has(h6)").click()
-  }
+    if (document.querySelector("button:has(h6)")) {
+      document.querySelector("button:has(h6)").click()
+      document.querySelector(".lower-hand-label").style.display = 'none'
+      document.querySelector(".rise-hand-label").style.display = 'block'
+    } else {
+      document.querySelector("button[aria-label='More']").click()
+      setTimeout(() => { 
+        document.querySelector("#menu-list-icon-more > li:nth-child(2)").click()
+        document.querySelector(".lower-hand-label").style.display = 'block'
+        document.querySelector(".rise-hand-label").style.display = 'none'
+        setTimeout(() => { 
+        document.querySelector("button:has(h6)").click()
+        }, 0)
+      }, 0)
+    }
 })
 
 // Create an observer instance linked to the callback function

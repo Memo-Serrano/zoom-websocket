@@ -191,11 +191,31 @@ button:hover {
 [role="tabpanel"]:nth-child(3) .react-draggable {
   width: 100% !important;
   height: 100% !important;
+  transform: unset !important;
+  cursor: auto;
 }
-
+#zoomMeetingContainer:has(.css-1l32vgz) button[title="View"] {
+  display: none;
+}
+.css-30np0x {
+  width: 100% !important;
+}
+.css-lk2cai {
+  width: 100% !important;
+}
+.css-smopl6 {
+  width: 100% !important;
+}
+.css-1txzflg {
+  width: 100% !important;
+}
+.css-1l32vgz {
+  display: none !important;
+}
 [role="dialog"] {
   position: relative !important;
   transform: unset !important;
+  min-width: max-content !important;
 }
 
 [role="dialog"][aria-label="Chat"] {
@@ -236,6 +256,15 @@ button:hover {
   display: none !important;
 }
 
+[role="dialog"][aria-label="Chat"] > div > div > div > div > div > div:has(input[type="file"]) {
+  display: none;
+}
+[role="region"] > div,
+canvas[aria-label="Screen share"] { width: 100%;}
+[role="dialog"][aria-label="Chat"] .react-draggable > div {
+  min-width: max-content !important;
+}
+
 #zoomMeetingContainer>div>div>div {
   position: relative;
   width: 100%;
@@ -251,6 +280,8 @@ button[title="Show captions"],
 button[title="Caption settings"],
 button[title="More"],
 button[title="Reactions"],
+button[title="Meeting Information"],
+button[title="Meeting Information"] + button,
 #zoomMeetingContainer>div>div>div:nth-child(2)>:last-child {
   display: none;
 }
@@ -289,7 +320,9 @@ h1.timer-main {
   .sidebar-wrapper {
     margin-left: 0px;
   }
-
+  .meeting-sidebar {
+    margin-bottom: 5px;
+  }
   #suspension-view-tabpanel-active-active>div {
     height: 330px;
     aspect-ratio: 2;
@@ -315,6 +348,17 @@ h1.timer-main {
     visibility: visible !important;
     opacity: 1 !important;
   }
+  .css-1r342q0 {
+    height: 100%;
+    flex-direction: column;
+  }
+  .css-1y8gwlt {
+    height: max(300px);
+    width: 100% !important;
+  }
+  .css-1sq2kbq {
+    display: none !important;
+  }
 }
 
 @media screen and (max-width: 680px) {
@@ -336,4 +380,8 @@ h1.timer-main {
     margin-top: 10px;
     z-index: 999;
   }
+  .css-1wqscyi {
+    height: 47vw !important;
+  }
+
 }
