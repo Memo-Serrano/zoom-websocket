@@ -194,22 +194,34 @@ button:hover {
   transform: unset !important;
   cursor: auto;
 }
-#zoomMeetingContainer:has(.css-1l32vgz) button[title="View"] {
+.react-draggable.react-draggable-dragged {
+  transform: unset !important;
+}
+/* Hide View button when host is sharing screen */
+#zoomMeetingContainer:has(#suspension-view-tabpanel-ribbon-multiple > div > div > div:nth-child(2)) button[title="View"] {
   display: none;
 }
-.css-30np0x {
+
+/* Expands active video area */
+#suspension-view-tabpanel-active-multiple > div > div:nth-child(2) {
   width: 100% !important;
 }
-.css-lk2cai {
-  width: 100% !important;
+
+/* Not started and Waiting room Section full width */
+#zoomMeetingContainer > div > div > div > div > div {
+    width: 100% !important;
 }
+
+/*
 .css-smopl6 {
   width: 100% !important;
 }
 .css-1txzflg {
   width: 100% !important;
-}
-.css-1l32vgz {
+}*/
+
+/* Hides Share Screen menu */
+#suspension-view-tabpanel-ribbon-multiple > div > div > div:nth-child(2) { /* Share Screen menu */
   display: none !important;
 }
 [role="dialog"] {
@@ -348,15 +360,21 @@ h1.timer-main {
     visibility: visible !important;
     opacity: 1 !important;
   }
-  .css-1r342q0 {
+
+  /* Tabpanel (share screen) */
+  #zoomMeetingContainer:has(#suspension-view-tabpanel-ribbon-multiple > div > div > div:nth-child(2)) [role="tabpanel"]:nth-child(3) > div {
     height: 100%;
     flex-direction: column;
   }
-  .css-1y8gwlt {
+
+  /* Tabpanel for participant videos (share screen) */
+  #zoomMeetingContainer:has(#suspension-view-tabpanel-ribbon-multiple > div > div > div:nth-child(2)) [role="tabpanel"]:nth-child(3) > div > div:nth-child(3) {
     height: max(300px);
     width: 100% !important;
   }
-  .css-1sq2kbq {
+
+  /* Tabpanel divider (share screen) */
+  #zoomMeetingContainer:has(#suspension-view-tabpanel-ribbon-multiple > div > div > div:nth-child(2)) [role="tabpanel"]:nth-child(3) > div > div:nth-child(2) {
     display: none !important;
   }
 }
@@ -380,8 +398,9 @@ h1.timer-main {
     margin-top: 10px;
     z-index: 999;
   }
-  .css-1wqscyi {
+  /*
+  [role="tabpanel"]:nth-child(3) > div {
     height: 47vw !important;
-  }
+  }*/
 
 }
