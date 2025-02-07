@@ -202,8 +202,8 @@ button:hover {
   display: none;
 }
 
-/* Expands active video area */
-#suspension-view-tabpanel-active-multiple > div > div:nth-child(2) {
+/* Expands view area */
+[role="tabpanel"]:nth-child(3) > div > div:nth-child(2) {
   width: 100% !important;
 }
 
