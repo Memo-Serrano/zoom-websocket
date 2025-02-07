@@ -188,18 +188,18 @@ button:hover {
   height: 100%;
   aspect-ratio: 2;
 }
+
+/* Main Video Section */
 [role="tabpanel"]:nth-child(3) .react-draggable {
   width: 100% !important;
-  height: 100% !important;
+  height: auto !important;
   transform: unset !important;
   cursor: auto;
 }
+
+/* Disables draggable sections */
 .react-draggable.react-draggable-dragged {
   transform: unset !important;
-}
-/* Hide View button when host is sharing screen */
-#zoomMeetingContainer:has(#suspension-view-tabpanel-ribbon-multiple > div > div > div:nth-child(2)) button[title="View"] {
-  display: none;
 }
 
 /* Expands view area */
@@ -220,10 +220,37 @@ button:hover {
   width: 100% !important;
 }*/
 
+
+/* SHARE SCREEN CSS ↓↓↓↓ */
+
 /* Hides Share Screen menu */
-#suspension-view-tabpanel-ribbon-multiple > div > div > div:nth-child(2) { /* Share Screen menu */
+[role="tabpanel"]:nth-child(3) > div > div > div:nth-child(2) {
   display: none !important;
 }
+/* Hide View button when host is sharing screen */
+#zoomMeetingContainer:has([role="tabpanel"]:nth-child(3) > div > div > div:nth-child(2)) button[title="View"] {
+  display: none;
+}
+/* Participants videos view (Share Screen) */
+#zoomMeetingContainer:has([role="tabpanel"]:nth-child(3) > div > div > div:nth-child(2)) [role="tabpanel"]:nth-child(3) > div {
+  height: 100%;
+  flex-direction: row;
+}
+
+/* Divider when Sharing Screen */
+#zoomMeetingContainer:has([role="tabpanel"]:nth-child(3) > div > div > div:nth-child(2)) [role="tabpanel"]:nth-child(3) > div > div:nth-child(2) {
+  display: none;
+}
+
+/* Video view section when Sharing Screen */
+#zoomMeetingContainer:has([role="tabpanel"]:nth-child(3) > div > div > div:nth-child(2)) [role="tabpanel"]:nth-child(3) > div > div:nth-child(3) {
+  width: max(200px);
+  height: 54vw;
+}
+/* SHARE SCREEN CSS ↑↑↑↑ */
+
+
+
 [role="dialog"] {
   position: relative !important;
   transform: unset !important;
@@ -360,23 +387,6 @@ h1.timer-main {
     visibility: visible !important;
     opacity: 1 !important;
   }
-
-  /* Tabpanel (share screen) */
-  #zoomMeetingContainer:has(#suspension-view-tabpanel-ribbon-multiple > div > div > div:nth-child(2)) [role="tabpanel"]:nth-child(3) > div {
-    height: 100%;
-    flex-direction: column;
-  }
-
-  /* Tabpanel for participant videos (share screen) */
-  #zoomMeetingContainer:has(#suspension-view-tabpanel-ribbon-multiple > div > div > div:nth-child(2)) [role="tabpanel"]:nth-child(3) > div > div:nth-child(3) {
-    height: max(300px);
-    width: 100% !important;
-  }
-
-  /* Tabpanel divider (share screen) */
-  #zoomMeetingContainer:has(#suspension-view-tabpanel-ribbon-multiple > div > div > div:nth-child(2)) [role="tabpanel"]:nth-child(3) > div > div:nth-child(2) {
-    display: none !important;
-  }
 }
 
 @media screen and (max-width: 680px) {
@@ -398,9 +408,22 @@ h1.timer-main {
     margin-top: 10px;
     z-index: 999;
   }
-  /*
-  [role="tabpanel"]:nth-child(3) > div {
-    height: 47vw !important;
-  }*/
+}
 
+@media screen and (max-width: 430px) {
+  /* SHARE SCREEN CSS ↓↓↓↓ */
+  /* Participants videos view (Share Screen) */
+  #zoomMeetingContainer:has([role="tabpanel"]:nth-child(3) > div > div > div:nth-child(2)) [role="tabpanel"]:nth-child(3) > div {
+    flex-direction: column;
+  }
+  /* Main Video Section */
+  [role="tabpanel"]:nth-child(3) .react-draggable {
+    height: 100% !important;
+  }
+
+  /* Video view section when Sharing Screen */
+  #zoomMeetingContainer:has([role="tabpanel"]:nth-child(3) > div > div > div:nth-child(2)) [role="tabpanel"]:nth-child(3) > div > div:nth-child(3) {
+    width: 100%;
+  }
+  /* SHARE SCREEN CSS ↑↑↑↑ */
 }
