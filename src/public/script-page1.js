@@ -171,15 +171,22 @@ document.querySelector('.reactions-container').addEventListener('click', (e) => 
       document.querySelector(".lower-hand-label").style.display = 'none'
       document.querySelector(".rise-hand-label").style.display = 'block'
     } else {
-      document.querySelector("button[aria-label='More']").click()
-      setTimeout(() => { 
-        document.querySelector("#menu-list-icon-more > li:nth-child(2)").click()
-        document.querySelector(".lower-hand-label").style.display = 'block'
-        document.querySelector(".rise-hand-label").style.display = 'none'
+      if(document.querySelector('button[title="Reactions"]')) {
+        document.querySelector('button[title="Reactions"]').click()
         setTimeout(() => { 
-        document.querySelector("button:has(h6)").click()
+          document.querySelector("button:has(h6)").click()
+        }, 100)
+      } else {
+        document.querySelector("button[aria-label='More']").click()
+        setTimeout(() => { 
+          document.querySelector("#menu-list-icon-more > li:nth-child(2)").click()
+          document.querySelector(".lower-hand-label").style.display = 'block'
+          document.querySelector(".rise-hand-label").style.display = 'none'
+          setTimeout(() => { 
+          document.querySelector("button:has(h6)").click()
+          }, 0)
         }, 0)
-      }, 0)
+      }
     }
 })
 
