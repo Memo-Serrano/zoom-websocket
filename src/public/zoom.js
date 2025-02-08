@@ -34,7 +34,7 @@ export async function initializeZoomMeeting(email, meeting_number) {
           disableDraggable: true
         },
         isResizable: true,
-        defaultViewType: 'active',
+        defaultViewType: 'gallery',
         viewSizes: {
           default: {
             width: 1000,
