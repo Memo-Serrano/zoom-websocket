@@ -98,11 +98,12 @@ const callback = (mutationList, observer) => {
     if (document.querySelector('#zoom-sdk-video-canvas ~ ul>li') && !clientReady) {
       console.log('Client Ready');
       clientReady = true //Checks if there are users added in meeting
+      setAttendedTag()
     }
     if(clientReady) {
       if(client.getVirtualBackgroundStatus().vbList[1].id == 'program' && client.getVirtualBackgroundStatus().id !== 'program') {
         setTimeout(() => {
-          // Configurar la URL base
+/*           // Configurar la URL base
           const baseUrl = isProduction ? 'https://evento.conmemo.com' : 'http://localhost:3000';
 
           // Cambiar el fondo virtual
@@ -112,10 +113,10 @@ const callback = (mutationList, observer) => {
             fileName: 'Elite',
             id: 'customprogram',
             url: imageUrl
-          }]
-          client.updateVirtualBackgroundList(vbList).then(() => {
+          }] */
+          /* client.updateVirtualBackgroundList(vbList).then(() => {
             client.setVirtualBackground('program')
-          })
+          }) */
         }, 1000)
       }
     }
@@ -124,6 +125,9 @@ const callback = (mutationList, observer) => {
       console.log('Enabling Chat Window...')
         if(document.querySelector('button[title="Chat"]')) {
           document.querySelector('button[title="Chat"]').click()
+          setTimeout(() => {
+            setChatWindow()
+          }, 1000)
         } else {
           document.querySelector("button[aria-label='More']").click()
         }
@@ -136,19 +140,7 @@ const callback = (mutationList, observer) => {
     if(document.querySelector('[role="dialog"][aria-label="Chat"]')) chatEnabled = true;
 
     if (!document.querySelector('.zoom-wrapper [role="dialog"][aria-label="Chat"]') && document.querySelector('[role="dialog"][aria-label="Chat"]') && clientReady) {
-      console.log('Chat Window Ready')
-      document.querySelector('.zoom-wrapper').append(document.querySelector('[role="dialog"][aria-label="Chat"]'))
-      document.querySelector('#zoomMeetingContainer > div > div > div').append(document.querySelector('.cta-wrapper'))
-      document.querySelectorAll('.init-hidden').forEach((el) => {
-        el.classList.remove('init-hidden')
-      })
-      document.querySelector('html').style.overflow = 'auto'
-      if (window.innerWidth < 1240) {
-        document.querySelector('.zoom-wrapper').insertBefore(document.querySelector('.meeting-sidebar'), document.querySelector('[role="dialog"][aria-label="Chat"]'))
-      }
-      if (window.innerWidth < 680 && !document.querySelector('.meeting-sidebar .cta-wrapper')) {
-        document.querySelector('.meeting-sidebar').append(document.querySelector('.cta-wrapper'))
-      }
+      setChatWindow()
     }
     if (document.querySelector('#zoomMeetingContainer div[aria-label="Zoom app container"]') && clientReady) {
       if (document.querySelector('#zoomMeetingContainer div[aria-label="Zoom app container"]').innerHTML == '<div></div>') {
@@ -164,7 +156,21 @@ const callback = (mutationList, observer) => {
   }
 };
 
-
+function setChatWindow() {
+  console.log('Chat Window Ready')
+  document.querySelector('.zoom-wrapper').append(document.querySelector('[role="dialog"][aria-label="Chat"]'))
+  document.querySelector('#zoomMeetingContainer > div > div > div').append(document.querySelector('.cta-wrapper'))
+  document.querySelectorAll('.init-hidden').forEach((el) => {
+    el.classList.remove('init-hidden')
+  })
+  document.querySelector('html').style.overflow = 'auto'
+  if (window.innerWidth < 1240) {
+    document.querySelector('.zoom-wrapper').insertBefore(document.querySelector('.meeting-sidebar'), document.querySelector('[role="dialog"][aria-label="Chat"]'))
+  }
+  if (window.innerWidth < 680 && !document.querySelector('.meeting-sidebar .cta-wrapper')) {
+    document.querySelector('.meeting-sidebar').append(document.querySelector('.cta-wrapper'))
+  }
+}
 document.querySelector('.reactions-container').addEventListener('click', (e) => {
     if (document.querySelector("button:has(h6)")) {
       document.querySelector("button:has(h6)").click()
@@ -203,6 +209,32 @@ document.querySelectorAll('.cta-btn').forEach((el) => {
   })
 })
 
+/* function setBackground() {
+  console.log('bg')
+  document.querySelector('button[title="Start Video"]').addEventListener('click', (e) => {
+    const baseUrl = isProduction ? 'https://evento.conmemo.com' : 'http://localhost:3000';
+    const client = ZoomMtgEmbedded.createClient();
+    // Cambiar el fondo virtual
+    const imageUrl = `${baseUrl}/images/Elite.png`;
+    const vbList = [{
+      displayName: 'Fondo Elite',
+      fileName: 'Elite',
+      id: 'customprogram',
+      url: imageUrl
+    }]
+    client.updateVirtualBackgroundList(vbList).then(() => {
+      client.updateVirtualBackgroundList(vbList).then(() => {
+        setTimeout(() => {
+          client.setVirtualBackground('customprogram').then(() => {
+            client.setVirtualBackground('customprogram')
+          })
+        }, 100)
+      })
+    })
+  })
+} */
+
+
 window.onresize = (event) => {
   if (window.innerWidth < 1240 && !document.querySelector('.zoom-wrapper .meeting-sidebar') && clientReady) {
     document.querySelector('.zoom-wrapper').insertBefore(document.querySelector('.meeting-sidebar'), document.querySelector('[role="dialog"][aria-label="Chat"]'))
@@ -216,6 +248,31 @@ window.onresize = (event) => {
   }
 };
 
+
+async function setAttendedTag() {
+
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2NhdGlvbl9pZCI6IlQ0bHhiVWdxVFhlaWRRZ1pDV0NkIiwiY29tcGFueV9pZCI6IlgzaGdlNFFxbUVRYmdiNGcxWTE4IiwidmVyc2lvbiI6MSwiaWF0IjoxNzA2NzQ0NjU0NDE1LCJzdWIiOiJ1c2VyX2lkIn0._ke4US2bIL2MNsdMm9GYTGQ8wQtbBBLW0UAFjcr6M78");
+  const raw = JSON.stringify({
+    "tags": ['has_attended']
+  });
+
+  const req_options = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow"
+  };
+  const hasAttended = await fetch(`https://rest.gohighlevel.com/v1/contacts/${getCookie('msid')}/tags`, req_options);
+
+  if (!hasAttended.ok) {
+    throw new Error('Error al aplicar asistencia');
+  } else {
+    console.log('Asistencia Confirmada')
+  }
+  const res = await hasAttended.json();
+}
 
 // Solicitar permisos para cámara y micrófono
 async function requestPermissions() {
