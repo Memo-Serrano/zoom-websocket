@@ -1,7 +1,4 @@
 const { ZoomMtgEmbedded } = window;
-//import { Client } from '/modules/@zoom/meetingsdk/dist/zoom-meeting-embedded-ES5.min.js';
-//import ZoomMtgEmbedded from '/modules/@zoom/meetingsdk/dist/embedded';
-
 
 export async function initializeZoomMeeting(email, meeting_number) {
   // Detectar si está en producción
@@ -25,6 +22,69 @@ export async function initializeZoomMeeting(email, meeting_number) {
   // Obtener la signature desde el servidor
   const response = await fetch(`/signature?meetingNumber=${meeting_number}`);
   const data = await response.json();
+
+  let bg_Step1 = false;
+  let bg_Step2 = false;
+  let bg_Step3 = false;
+  let bg_Step4 = false;
+  let bg_Step5 = false;
+  let bg_set = false;
+
+  const vbList = [{
+    displayName: 'Fondo Elite',
+    fileName: 'Elite',
+    id: 'customprogram',
+    url: imageUrl
+  }]
+  const bodyNode = document.querySelector("body");
+  const config = { attributes: true, childList: true, subtree: true };
+  const callbackBody = (mutationList, bodyObserver) => {
+    for (const mutation of mutationList) {
+      /* if(document.querySelector('[role="dialog"][aria-label="Settings"]') && !bg_Step1) {
+        if(document.querySelector("#setting-tab-background")) {
+          document.querySelector("#setting-tab-background").click()
+          bg_Step1 = true;
+          console.log('step 1')
+        }
+      }
+  
+      if(document.querySelector('#suspension-view-tabpanel-background img') && bg_Step1 && !bg_Step2 && !client.getVirtualBackgroundStatus().isVbOn) {
+          document.querySelector('#suspension-view-tabpanel-background img:nth-child(3)').click()
+          bg_Step2 = true;
+          console.log('step 2', client.getVirtualBackgroundStatus().isVbOn)
+      }
+      if(document.querySelector('#suspension-view-tabpanel-background img') && !client.getVirtualBackgroundStatus().isVbOn && !bg_set) {
+        document.querySelector('#suspension-view-tabpanel-background img:nth-child(3)').click()
+        console.log('set bg', client.getVirtualBackgroundStatus().isVbOn)
+      }
+      if(document.querySelector('#suspension-view-tabpanel-background img') && client.getVirtualBackgroundStatus().isVbOn && !bg_set) {
+        bg_set = true;
+        document.querySelector('#suspension-view-tabpanel-background p').closest('div').click()
+        bg_Step3 = true
+        console.log('step 3')
+      }
+      if(bg_Step2 && client.getVirtualBackgroundStatus().isVbOn && !bg_Step3) {
+        document.querySelector('#suspension-view-tabpanel-background p').closest('div').click()
+        bg_Step3 = true
+        console.log('step 3')
+      }
+  
+      if(bg_Step3 && !client.getVirtualBackgroundStatus().isVbOn && !bg_Step4) {
+        document.querySelector('[aria-label="Settings"] [aria-label="Close"]').click()
+        bg_Step4 = true;
+        console.log('step 4')
+      }
+  
+      if(bg_Step4 && !document.querySelector('[role="dialog"][aria-label="Settings"]') && !bg_Step5 && client.getVirtualBackgroundStatus().vbList[1].id !== 'customprogram') {
+        client.updateVirtualBackgroundList(vbList)
+        console.log(client.getVirtualBackgroundStatus())
+      } */
+    }
+  }
+  
+  const bodyObserver = new MutationObserver(callbackBody);
+  bodyObserver.observe(bodyNode, config);
+
 
   client.init({
     zoomAppRoot: document.getElementById('zoomMeetingContainer'),
@@ -63,12 +123,6 @@ export async function initializeZoomMeeting(email, meeting_number) {
     body: raw,
     redirect: "follow"
   };
-  const vbList = [{
-    displayName: 'Fondo Elite',
-    fileName: 'Elite',
-    id: 'program',
-    url: imageUrl
-  }]
   client.on("connection-change", (payload) => {
     if (payload.state === 'Closed') {
       console.log("Meeting ended")
@@ -107,11 +161,9 @@ export async function initializeZoomMeeting(email, meeting_number) {
         password: password,
         userName: `${result.contact.firstName} ${result.contact.lastName}`,
       }).then(() => {
-          /* client.updateVirtualBackgroundList(vbList)
-          setTimeout(() => {
-            console.log(client.getVirtualBackgroundStatus())
-            client.setVirtualBackground('program')
-          }, 2000) */
+          /* client.updateVirtualBackgroundList(vbList).then(() => {
+            client.setVirtualBackground('customprogram')
+          }) */
       }).catch((error) => console.error('Error al unirse a la reunión:', error));
     }
 
