@@ -333,11 +333,11 @@ window.addEventListener("beforeunload", () => {
   stopMeetingTimer();
   sendReportToGHL(true); // Enviar reporte cuando el usuario salga
 });
-document.addEventListener("visibilitychange", () => {
+/* document.addEventListener("visibilitychange", () => {
   if (document.visibilityState === "hidden") {
     sendReportToGHL(true);
   }
-});
+}); */
 // Evento para cuando el usuario se una al Meeting
 
 
