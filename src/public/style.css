@@ -343,13 +343,6 @@ h1.timer-main {
   margin: 0;
 }
 
-/* Panel de Control */
-.controls-container {
-  display: flex;
-}
-
-
-
 /* Media Queries */
 @media screen and (max-width: 1240px) {
   .meeting-container {
