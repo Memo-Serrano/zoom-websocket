@@ -403,7 +403,7 @@ h1.timer-main {
   }
 }
 
-@media screen and (max-width: 430px) {
+@media screen and (max-width: 440px) {
   /* SHARE SCREEN CSS ↓↓↓↓ */
   /* Participants videos view (Share Screen) */
   #zoomMeetingContainer:has([role="tabpanel"]:nth-child(3) > div > div > div:nth-child(2)) [role="tabpanel"]:nth-child(3) > div {
