@@ -67,7 +67,7 @@ export async function initializeZoomMeeting(email, meeting_number) {
 
   const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
-  myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2NhdGlvbl9pZCI6IlQ0bHhiVWdxVFhlaWRRZ1pDV0NkIiwiY29tcGFueV9pZCI6IlgzaGdlNFFxbUVRYmdiNGcxWTE4IiwidmVyc2lvbiI6MSwiaWF0IjoxNzA2NzQ0NjU0NDE1LCJzdWIiOiJ1c2VyX2lkIn0._ke4US2bIL2MNsdMm9GYTGQ8wQtbBBLW0UAFjcr6M78");
+  myHeaders.append("Authorization", `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2NhdGlvbl9pZCI6Ijg1RkZITm1MendVYzZRVDNPNzdaIiwidmVyc2lvbiI6MSwiaWF0IjoxNzQxMjA2OTc2NTg0LCJzdWIiOiJKbE1vOFZJN0tJdDlRcEp1b240YSJ9.1OzF8cANgBJYFLar8IReLSxxNJTaVL7jv4gbTpUNUxY`);
 
   const raw = JSON.stringify({
     "email": decodeURIComponent(email)

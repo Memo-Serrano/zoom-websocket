@@ -222,7 +222,7 @@ window.onresize = (event) => {
 async function setAttendedTag() {
   const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
-  myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2NhdGlvbl9pZCI6IlQ0bHhiVWdxVFhlaWRRZ1pDV0NkIiwiY29tcGFueV9pZCI6IlgzaGdlNFFxbUVRYmdiNGcxWTE4IiwidmVyc2lvbiI6MSwiaWF0IjoxNzA2NzQ0NjU0NDE1LCJzdWIiOiJ1c2VyX2lkIn0._ke4US2bIL2MNsdMm9GYTGQ8wQtbBBLW0UAFjcr6M78");
+  myHeaders.append("Authorization", `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2NhdGlvbl9pZCI6Ijg1RkZITm1MendVYzZRVDNPNzdaIiwidmVyc2lvbiI6MSwiaWF0IjoxNzQxMjA2OTc2NTg0LCJzdWIiOiJKbE1vOFZJN0tJdDlRcEp1b240YSJ9.1OzF8cANgBJYFLar8IReLSxxNJTaVL7jv4gbTpUNUxY`);
   const raw = JSON.stringify({
     "tags": ['has_attended']
   });
@@ -286,11 +286,12 @@ function sendReportToGHL(sync = false) {
   const totalTime = timeInMeeting + (startTime ? Math.floor((Date.now() - startTime) / 1000) : 0);
 
   console.log("Enviando reporte:", totalTime);
-  const url = "https://services.leadconnectorhq.com/hooks/T4lxbUgqTXeidQgZCWCd/webhook-trigger/da5ec4f8-f5be-41a8-93e7-3801675c6d3a";
+
+  const webhook_url = 'https://services.leadconnectorhq.com/hooks/85FFHNmLzwUc6QT3O77Z/webhook-trigger/832b5f34-2e09-424f-9ddd-e030c93a3c90';
   
   const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
-  myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2NhdGlvbl9pZCI6IlQ0bHhiVWdxVFhlaWRRZ1pDV0NkIiwiY29tcGFueV9pZCI6IlgzaGdlNFFxbUVRYmdiNGcxWTE4IiwidmVyc2lvbiI6MSwiaWF0IjoxNzA2NzQ0NjU0NDE1LCJzdWIiOiJ1c2VyX2lkIn0._ke4US2bIL2MNsdMm9GYTGQ8wQtbBBLW0UAFjcr6M78");
+  myHeaders.append("Authorization", `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2NhdGlvbl9pZCI6Ijg1RkZITm1MendVYzZRVDNPNzdaIiwidmVyc2lvbiI6MSwiaWF0IjoxNzQxMjA2OTc2NTg0LCJzdWIiOiJKbE1vOFZJN0tJdDlRcEp1b240YSJ9.1OzF8cANgBJYFLar8IReLSxxNJTaVL7jv4gbTpUNUxY`);
   const raw = JSON.stringify({
     "email": decodeURIComponent(email),
     "time": totalTime
@@ -298,9 +299,9 @@ function sendReportToGHL(sync = false) {
 
   if(sync && navigator.sendBeacon) {
     const blob = new Blob([raw], { type: "application/json" });
-    navigator.sendBeacon(url, blob);
+    navigator.sendBeacon(webhook_url, blob);
   } else {
-    fetch(url, {
+    fetch(webhook_url, {
       method: "POST",
       headers: myHeaders,
       body: raw,
