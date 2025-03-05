@@ -10,16 +10,22 @@ button {
 .panel-wrapper {
     max-width: max-content;
     margin: auto;
+    display: flex;
+    height: 400px;
 }
 
-.panel-title-wrapper {
+.controls-title-wrapper {
     padding: 10px;
 }
 
-.panel-title {
+.controls-title {
     text-align: center;
 }
-
+.constrols-wrapper,
+.attendees-wrapper {
+    display: flex;
+    flex-direction: column;
+}
 .controls-container {
     display: flex;
     justify-content: center;
@@ -27,8 +33,30 @@ button {
     padding: 30px;
     margin: auto;
     background-color: #4b49ac;
+    height: 100%;
+    width: 100%;
 }
-
+.attendees-container {
+    display: flex;
+    justify-content: start;
+    padding: 30px;
+    background-color: #4b49ac;
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+}
+.attendees-count {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+.count-title {
+    color: #fff;
+}
+.count-element {
+    color: #fff;
+    font-weight: bold;
+}
 .container-title {
     color: #fff;
 }

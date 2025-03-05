@@ -11,6 +11,7 @@ function toggleElement(elementId, visible) {
 
 socket.onmessage = (event) => {
   const data = JSON.parse(event.data);
+  console.log(data)
   if (data.action === 'initialize') {
     Object.keys(data.states).forEach((id) => {
       updateElement(document.querySelector(`.show-${id}`), data.states[id]);
@@ -22,6 +23,14 @@ socket.onmessage = (event) => {
         startTimer(id, data.timers[id].remainingTime);
       } 
     }); */ //******Use this section to show preview of remining time*****
+  }
+  if(data.action === 'attendeesList') {
+    document.querySelector('.count-element').innerText = data.attendees.length;
+    //console.log(data.attendees)
+  }
+  if(data.action === 'attendeesListInit') {
+    document.querySelector('.count-element').innerText = data.attendees;
+    //console.log(data.attendees)
   }
 };
 // Actualizar la visibilidad de un elemento
@@ -38,10 +47,6 @@ document.getElementById('toggleButton1').addEventListener('click', () => {
   }
 });
 
-/* document.getElementById('hideButton1').addEventListener('click', () => {
-  toggleElement('cta1', false);
-}); */
-
 document.getElementById('toggleButton2').addEventListener('click', () => {
   if(!document.getElementById('toggleButton2').checked) {
     toggleElement('cta2', false);
@@ -49,10 +54,6 @@ document.getElementById('toggleButton2').addEventListener('click', () => {
     toggleElement('cta2', true);
   }
 });
-
-/* document.getElementById('hideButton2').addEventListener('click', () => {
-  toggleElement('cta2', false);
-}); */
 
 document.getElementById('toggleButton3').addEventListener('click', () => {
   if(!document.getElementById('toggleButton3').checked) {
@@ -62,10 +63,6 @@ document.getElementById('toggleButton3').addEventListener('click', () => {
   }
 });
 
-/* document.getElementById('hideButton3').addEventListener('click', () => {
-  toggleElement('timer1', false);
-}); */
-
 document.getElementById('toggleButton4').addEventListener('click', () => {
   if(!document.getElementById('toggleButton4').checked) {
     toggleElement('timer2', false);
@@ -73,10 +70,6 @@ document.getElementById('toggleButton4').addEventListener('click', () => {
     toggleElement('timer2', true);
   }
 });
-
-/* document.getElementById('hideButton4').addEventListener('click', () => {
-  toggleElement('timer2', false);
-}); */
 
 document.getElementById('toggleButton5').addEventListener('click', () => {
   if(!document.getElementById('toggleButton5').checked) {
@@ -86,10 +79,6 @@ document.getElementById('toggleButton5').addEventListener('click', () => {
   }
 });
 
-/* document.getElementById('hideButton5').addEventListener('click', () => {
-  toggleElement('timer3', false);
-}); */
-
 document.getElementById('toggleButton6').addEventListener('click', () => {
   if(!document.getElementById('toggleButton6').checked) {
     toggleElement('timer4', false);
@@ -98,10 +87,6 @@ document.getElementById('toggleButton6').addEventListener('click', () => {
   }
 });
 
-/* document.getElementById('hideButton6').addEventListener('click', () => {
-  toggleElement('timer4', false);
-}); */
-
 document.getElementById('toggleButton7').addEventListener('click', () => {
   if(!document.getElementById('toggleButton7').checked) {
     toggleElement('timer5', false);
@@ -109,7 +94,3 @@ document.getElementById('toggleButton7').addEventListener('click', () => {
     toggleElement('timer5', true);
   }
 });
-
-/* document.getElementById('hideButton7').addEventListener('click', () => {
-  toggleElement('timer5', false);
-}); */

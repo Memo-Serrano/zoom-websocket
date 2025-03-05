@@ -8,6 +8,7 @@ const path = require('path');
 const app = express();
 const server = http.createServer(app);
 
+const cron = require("node-cron");
 // Sirve los archivos estáticos de node_modules
 console.log('Static files served from:', path.join(__dirname, 'node_modules'));
 app.use('/modules', express.static(path.join(__dirname, 'node_modules')));
@@ -42,11 +43,6 @@ app.get('/signature', (req, res) => {
   if (!meetingNumber) {
     return res.status(400).send('Meeting number is required');
   }
-
-/*   const timestamp = new Date().getTime() - 30000;
-  const msg = Buffer.from(`${SDK_KEY}${meetingNumber}${timestamp}${role}`).toString('base64');
-  const hash = crypto.createHmac('sha256', SDK_SECRET).update(msg).digest('base64');
-  const signature = Buffer.from(`${SDK_KEY}.${meetingNumber}.${timestamp}.${role}.${hash}`).toString('base64'); */
 
   const iat = Math.round(new Date().getTime() / 1000) - 30
   const exp = iat + 60 * 60 * 2
@@ -93,6 +89,8 @@ const timers = {
   timer5: { remainingTime: 180, running: false } // 3 minutos
 };
 
+let attendeesList = 0;
+
 // Función para iniciar un temporizador
 function startTimer(timerId) {
   if (!timers[timerId].running) {
@@ -135,6 +133,26 @@ function broadcast(data) {
 }
 
 //NEW ADDED A
+function resetElements() {
+  console.log("Reiniciando parametros");
+  Object.keys(elementStates).forEach((r) => {
+    elementStates[r] = false;
+  })
+  Object.keys(timers).forEach((r) => {
+    timers[r].running = false;
+  })
+  console.log("Elementos:" , elementStates)
+  console.log("Timers:" , timers)
+}
+
+// Configurar la zona horaria y la tarea programada
+cron.schedule("0 5 * * *", () => {
+  resetElements();
+}, {
+    timezone: "America/New_York" // Zona horaria EST
+});
+
+
 
 // Manejar conexiones WebSocket
 wss.on('connection', (ws) => {
@@ -148,11 +166,10 @@ wss.on('connection', (ws) => {
       timers,
     })
   );
-
+  broadcast({ action: 'attendeesListInit', attendees: attendeesList });
   // Manejar mensajes entrantes
   ws.on('message', (message) => {
     const msg = JSON.parse(message);
-
     if (msg.action === 'toggleElement') {
       elementStates[msg.element] = msg.visible;
       broadcast({ action: 'updateElement', element: msg.element, visible: msg.visible });
@@ -161,33 +178,12 @@ wss.on('connection', (ws) => {
         startTimer(msg.element);
       }
     }
-  });
-});
-
-/* // Manejar conexiones WebSocket
-wss.on('connection', (ws) => {
-  console.log('Cliente conectado');
-
-  // Enviar el estado actual de los elementos al nuevo cliente
-  ws.send(JSON.stringify({ action: 'updateElements', states: elementStates }));
-
-  // Manejar mensajes entrantes
-  ws.on('message', (message) => {
-    const msg = JSON.parse(message);
-
-    // Actualizar el estado de los elementos en el servidor
-    if (msg.action === 'toggleElement') {
-      elementStates[msg.element] = msg.visible;
-
-      // Reenviar el estado actualizado a todos los clientes
-      wss.clients.forEach((client) => {
-        if (client.readyState === WebSocket.OPEN) {
-          client.send(JSON.stringify({ action: 'updateElement', element: msg.element, visible: msg.visible}));
-        }
-      });
+    if(msg.action === 'attendees') {
+      attendeesList = msg.attendees.length;
+      broadcast({ action: 'attendeesList', attendees: msg.attendees });
     }
   });
-}); */
+});
 
 app.get('/join', (req, res) => {
   const email = req.query.email;

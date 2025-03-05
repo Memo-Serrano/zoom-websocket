@@ -1,5 +1,4 @@
 import { initializeZoomMeeting } from './zoom.js';
-
 const { ZoomMtgEmbedded } = window;
 const client = ZoomMtgEmbedded.createClient();
 // Detectar si está en local o en producción
@@ -18,7 +17,6 @@ let meetingEndTime = null; // Tiempo de salida del Meeting
 // Manejar mensajes del servidor
 socket.onmessage = (event) => {
   const data = JSON.parse(event.data);
-
   if (data.action === 'initialize') {
     Object.keys(data.states).forEach((id) => {
       updateElement(document.getElementById(id), data.states[id]);
@@ -107,26 +105,6 @@ const callback = (mutationList, observer) => {
       clientReady = true //Checks if there are users added in meeting
       setAttendedTag()
     }
-    /* if(clientReady) {
-      if(client.getVirtualBackgroundStatus().vbList[1].id == 'program' && client.getVirtualBackgroundStatus().id !== 'program') {
-        setTimeout(() => {
-          // Configurar la URL base
-          const baseUrl = isProduction ? 'https://evento.conmemo.com' : 'http://localhost:3000';
-
-          // Cambiar el fondo virtual
-          const imageUrl = `${baseUrl}/images/Elite.png`;
-          const vbList = [{
-            displayName: 'Fondo Elite',
-            fileName: 'Elite',
-            id: 'customprogram',
-            url: imageUrl
-          }]
-          client.updateVirtualBackgroundList(vbList).then(() => {
-            client.setVirtualBackground('program')
-          })
-        }, 1000)
-      }
-    } */
     
     if(clientReady && !document.querySelector('[role="dialog"][aria-label="Settings"]') && !settings_opened) {
       /* if(document.querySelector('button[title="Settings"]')) {
@@ -174,6 +152,7 @@ const callback = (mutationList, observer) => {
 };
 
 function setChatWindow() {
+  socket.send(JSON.stringify({ action: 'attendees', attendees: client.getAttendeeslist()}));
   console.log('Chat Window Ready')
   document.querySelector('.zoom-wrapper').append(document.querySelector('[role="dialog"][aria-label="Chat"]'))
   document.querySelector('#zoomMeetingContainer > div > div > div').append(document.querySelector('.cta-wrapper'))
@@ -226,33 +205,6 @@ document.querySelectorAll('.cta-btn').forEach((el) => {
   })
 })
 
-/* function setBackground() {
-const client = ZoomMtgEmbedded.createClient();
-const imageUrl = `http://localhost:3000/images/Elite.png`;
-    const vbList = [{
-      displayName: 'Fondo Elite',
-      fileName: 'Elite',
-      id: 'customprogram',
-      url: imageUrl
-    }]
-console.log(client.getVirtualBackgroundStatus())
-client.updateVirtualBackgroundList(vbList).then(() => {
-    setTimeout(() => {
-    client.setVirtualBackground('customprogram')
-        }, 100)
-})
-document.querySelector('[title="Settings"]').click()
-document.querySelector("#setting-tab-background").click()
-document.querySelector("#suspension-view-tabpanel-background > div > div.zoom-MuiBox-root.css-1yuhvjn > div > div").click()
-document.querySelector('[aria-label="Settings"] [aria-label="Close"]').click()
-client.updateVirtualBackgroundList(vbList).then(() => {
-    setTimeout(() => {
-    client.setVirtualBackground('customprogram')
-        }, 100)
-})
-} */
-
-
 window.onresize = (event) => {
   if (window.innerWidth < 1240 && !document.querySelector('.zoom-wrapper .meeting-sidebar') && clientReady) {
     document.querySelector('.zoom-wrapper').insertBefore(document.querySelector('.meeting-sidebar'), document.querySelector('[role="dialog"][aria-label="Chat"]'))
@@ -297,11 +249,8 @@ async function setAttendedTag() {
 async function requestPermissions() {
   try {
     const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-    //document.getElementById('status').innerText = "Permisos concedidos: ✅";
-    
     stream.getTracks().forEach(track => track.stop());
   } catch (error) {
-    //document.getElementById('status').innerText = "Permisos denegados: ❌";
     console.error("Error al obtener permisos:", error);
   }
 }
@@ -323,34 +272,18 @@ function stopMeetingTimer() {
   }
 }
 
-// Detectar cuándo el usuario cambia de pestaña
-/* window.addEventListener("focus", startMeetingTimer);
-window.addEventListener("blur", stopMeetingTimer); */
-
 // Detectar cuándo el usuario cierra la pestaña
 window.addEventListener("beforeunload", () => {
   meetingEndTime = Date.now();
   stopMeetingTimer();
   sendReportToGHL(true); // Enviar reporte cuando el usuario salga
 });
-/* document.addEventListener("visibilitychange", () => {
-  if (document.visibilityState === "hidden") {
-    sendReportToGHL(true);
-  }
-}); */
 // Evento para cuando el usuario se una al Meeting
 
 
 // Función para enviar el reporte de tiempo al servidor
 function sendReportToGHL(sync = false) {
   const totalTime = timeInMeeting + (startTime ? Math.floor((Date.now() - startTime) / 1000) : 0);
-  /* const report = {
-    userName: "Nombre del Usuario", // Puedes obtenerlo del Zoom SDK
-    meetingId: "ID del Meeting",
-    timeInMeeting: totalTime, // Tiempo total en segundos
-    meetingStartTime: meetingStartTime ? new Date(meetingStartTime).toISOString() : null,
-    meetingEndTime: meetingEndTime ? new Date(meetingEndTime).toISOString() : null,
-  }; */
 
   console.log("Enviando reporte:", totalTime);
   const url = "https://services.leadconnectorhq.com/hooks/T4lxbUgqTXeidQgZCWCd/webhook-trigger/da5ec4f8-f5be-41a8-93e7-3801675c6d3a";

@@ -40,6 +40,7 @@ button:hover {
 .sidebar-wrapper {
   height: 100%;
   margin-left: 5px;
+  display: none !important; /*remove this to enable side bar*/
 }
 
 .meeting-sidebar {
@@ -49,7 +50,7 @@ button:hover {
   background: #242424;
   height: 100%;
   width: 100%;
-  display: flex;
+  display: none; /*Change to flex to enable it */
   flex-direction: column;
   gap: 10px;
 }
@@ -60,11 +61,22 @@ button:hover {
 
 .meeting-container {
   display: grid;
-  grid-template-columns: 80% 20%;
+  grid-template-columns: 100% 0%; /* set to 80% 20% to enable sidebar */
   justify-content: center;
   align-items: start;
 }
-
+.no-loggin {
+  color: #ffffff;
+  padding: 130px 50px;
+  border-radius: 10px;
+  max-width: max-content;
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  margin: auto;
+  text-transform: uppercase;
+  border: 1px solid #fff;
+}
 .zmwebsdk-makeStyles-singleView-7 .zoommtg-drag-video {
   cursor: unset;
   justify-content: end;
