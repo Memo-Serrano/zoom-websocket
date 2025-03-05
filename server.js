@@ -1,5 +1,4 @@
 const express = require('express');
-require('dotenv').config();
 const http = require('http');
 const WebSocket = require('ws');
 const crypto = require('crypto');
@@ -33,8 +32,8 @@ app.use((req, res, next) => {
 });
 
 // Zoom SDK credentials
-const SDK_KEY = process.env.ZOOM_SDK_KEY;
-const SDK_SECRET = process.env.ZOOM_SDK_SECRET;
+const SDK_KEY = 'UEEbOouT0wWC14opf66w';
+const SDK_SECRET = 'WV10DUSHL059A9FWoYIbgu35MFmXF5Zv';
 
 // Endpoint para generar la signature de Zoom
 app.get('/signature', (req, res) => {
